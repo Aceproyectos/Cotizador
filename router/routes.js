@@ -26,6 +26,7 @@ router.get("/formulario/:id", (req, res) => {
             if (err) {
               throw err;
             } else {
+              nocache(res)
               res.render("formulario", { datos: results[0], cod: resbd[0] });
             }
           }
@@ -34,4 +35,11 @@ router.get("/formulario/:id", (req, res) => {
     }
   );
 });
+
+function nocache(res) {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+}
+
 module.exports = router;
