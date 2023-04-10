@@ -6,7 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acemar</title>
-    <script src="javascript/jquery-2.1.4.min.js"></script>
+    <script src="javascript/jquery-3.6.1.min.js"></script>
+    <script src="/javascript/ElimCarrito.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -15,129 +16,123 @@
 </head>
 
 <body>
-    <div id="pdf">
-        <nav class="navbar">
-                <ul class="nav justify-content-end me-5 ">
-                    <img src="/images/redes/LOGO-Acemar-Gris-2020 US.png" class="ms-5 mt-1" alt="" width="auto" height="40">
-                    <img src="/images/redes/waterwille.jpg" class="ms-3" alt="" width="auto" height="50">
-                </ul>
-                <h3>PRE-ORDER</h3>
-                <ul class="nav justify-content-end me-5 bg-white">
-                    <li class="nav-item">
-                        <a class="nav-link text-secondary" href="pisos">Floorings</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link bg-light text-secondary" href="lista">Quoter</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/"><i
-                                class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
-                    </li>
-                </ul>
-            <div class="mt-2 linea"></div>
-        </nav>
-        <table id="tabla" name="table">
-            <thead>
+
+    <nav class="navbar">
+        <ul class="nav justify-content-end me-5 ">
+            <img src="/images/redes/LOGO-Acemar-Gris-2020 US.png" class="ms-5 mt-1" alt="" width="auto" height="40">
+            <img src="/images/redes/waterwille.jpg" class="ms-3" alt="" width="auto" height="50">
+        </ul>
+        <h3>PRE-ORDER</h3>
+        <ul class="nav justify-content-end me-5 bg-white">
+            <li class="nav-item">
+                <a class="nav-link text-secondary" href="pisos">Floorings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link bg-light text-secondary" href="lista">Quoter</a>
+            </li>
+            <li class="nav-item">
+                <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
+            </li>
+        </ul>
+        <div class="mt-2 linea"></div>
+    </nav>
+    <table id="tabla" name="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Product</th>
+                <th>SKU</th>
+                <th>Image</th>
+                <th>Top Layer</th>
+                <th>Pallets</th>
+                <th>SQF per Pallet</th>
+                <th>Boxes per pallet</th>
+                <th>SQL per Box</th>
+                <th>Unit Price SQF</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% datos.forEach(function (datos) {%>
+                <input type="hidden" value="<%= datos.id_enc%>" id="codigo" class="col-12 val id">
+                <input type="hidden" name="id_cliente" value="<%= datos.id_cliente%>" class="col-12 val id_cliente">
+                <input type="hidden" value="<%= datos.id_piso%>" class="col-12 val idpiso" id="idpiso" name="idpiso">
+                <input type="hidden" value="<%= datos.cantidad%>" class="col-12 val cant">
+                <input type="hidden" value="<%= datos.precio%>" class="col-12 val precio" name="precio">
                 <tr>
-                    <th></th>
-                    <th>Product</th>
-                    <th>SKU</th>
-                    <th>Image</th>
-                    <th>Top Layer</th>
-                    <th>Pallets</th>
-                    <th>SQF per Pallet</th>
-                    <th>Boxes per pallet</th>
-                    <th>SQL per Box</th>
-                    <th>Unit Price SQF</th>
-                    <th>Total</th>
+                    <td></td>
+                    <td>
+                        <%= datos.producto%>
+                    </td>
+                    <td>
+                        <%= datos.codigo%>-W-UT-RT10
+                    </td>
+                    <td><img src="images/flooring/<%=datos.imagen%>" class="puer" alt=""></td>
+                    <td>
+                        <%= datos.layer%>mm
+                    </td>
+                    <td>
+                        <%= datos.cantg%>
+                    </td>
+                    <td>
+                        <%= datos.sqf%>
+                    </td>
+                    <td>
+                        <%= datos.box%>
+                    </td>
+                    <td>
+                        <%= datos.sqfbox%>
+                    </td>
+                    <td>
+                        <%= datos.precun%>
+                    </td>
+                    <td>
+                        <%= datos.precg%>
+                    </td>
+                    <td>
+                        <input type="submit" class="elim btn btn-warning" value="Remove" name="elim">
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                <% datos.forEach(function (datos) {%>
-                    <input type="hidden" value="<%= datos.id_enc%>" id="codigo" class="col-12 val id">
-                    <input type="hidden" name="id_cliente" value="<%= datos.id_cliente%>" class="col-12 val id_cliente">
-                    <input type="hidden" value="<%= datos.id_piso%>" class="col-12 val idpiso" id="idpiso"
-                        name="idpiso">
-                    <input type="hidden" value="<%= datos.cantidad%>" class="col-12 val cant">
-                    <input type="hidden" value="<%= datos.precio%>" class="col-12 val precio" name="precio">
-                    <tr>
-                        <td></td>
-                        <td>
-                            <%= datos.producto%>
-                        </td>
-                        <td>
-                            <%= datos.codigo%>-W-UT-RT10
-                        </td>
-                        <td><img src="images/flooring/<%=datos.imagen%>" class="puer" alt=""></td>
-                        <td>
-                            <%= datos.layer%>mm
-                        </td>
-                        <td>
-                            <%= datos.cantg%>
-                        </td>
-                        <td>
-                            <%= datos.sqf%>
-                        </td>
-                        <td>
-                            <%= datos.box%>
-                        </td>
-                        <td>
-                            <%= datos.sqfbox%>
-                        </td>
-                        <td>
-                            <%= datos.precun%>
-                        </td>
-                        <td>
-                            <%= datos.precg%>
-                        </td>
-                        <td>
-                            <input type="submit" class="elim btn btn-warning" value="Remove" name="elim">
-                        </td>
-                    </tr>
-                    <% }) %>
-                        <form id="tab">
-                            <input type="hidden" value="<%= prec[0].sum %>" name="total">
-            </tbody>
-        </table>
-        <input type="hidden" value="<%= fac[0].id_factura %>" name="factura" id="factura">
-        <div id="areaImprimir" class="text-center">
-            <div class="conpacto">
-                <div class="informacion">
-                    <label for="">2310 Tall Pines Drive - Suite 230, Largo Florida 33771</label>
-                    <br>
-                    <label for="">727 584 3711</label>
-                    <br>
-                    <label for="">sales@acemar.us</label>
-                </div>
+                <% }) %>
+                    <form id="tab">
+                        <input type="hidden" value="<%= prec[0].sum %>" name="total">
+        </tbody>
+    </table>
+    <input type="hidden" value="<%= fac[0].id_factura %>" name="factura" id="factura">
+    <div id="areaImprimir" class="text-center">
+        <div class="conpacto">
+            <div class="informacion">
+                <label for="">2310 Tall Pines Drive - Suite 230, Largo Florida 33771</label>
+                <br>
+                <label for="">727 584 3711</label>
+                <br>
+                <label for="">sales@acemar.us</label>
             </div>
         </div>
-        <div class="ultimo">
-            <div>
-                <label for="">Subtotal:</label>
-                <span id="subtotal">
-                    <%= prec[0].sum %>
-                </span>
-                <br>
-                <label for="">Taks: </label>
-                <span>0%</span>
-                <br>
-                <label for="">Shipping: </label>
-                <span id="flete"></span>
-                <br>
-                <label for="">Total: </label>
-                <span id="final">
-                    <%= prec[0].sum %>
-                </span>
-            </div>
+    </div>
+    <div class="ultimo">
+        <div>
+            <label for="">Subtotal:</label>
+            <span id="subtotal">
+                <%= prec[0].sum %>
+            </span>
+            <br>
+            <label for="">Taks: </label>
+            <span>0%</span>
+            <br>
+            <label for="">Shipping: </label>
+            <span id="flete"></span>
+            <br>
+            <label for="">Total: </label>
+            <span id="final">
+                <%= prec[0].sum %>
+            </span>
         </div>
     </div>
     <div class="btn-eli">
         <input type="submit" class="fin" value="Finish" class="btn btn-secondary me-5">
     </div>
     </form>
-    <div class="btn-eli mt-2">
-        <input type="submit" id="btghvxc">
-    </div>
     <script src="/javascript/pdfContent.js"></script>
 </body>
 

@@ -58,23 +58,78 @@ controller.facturas = (req, res) => {
 };
 
 controller.base = async (req, res) => {
-  const bas = req.body.dd;
+  const doc = req.session.docu;
+  var sql =
+    "SELECT id_enc,id_cliente,id_piso,codigo,imagen,cantidad,precio,layer,producto,ROUND(SUM(precio),2) AS precg, SUM(cantidad) AS cantg FROM encabezadofac INNER JOIN pisos ON(encabezadofac.id_piso=pisos.id) WHERE id_enc= '" +
+    1 +
+    "' AND id_cliente = '" +
+    doc +
+    "' GROUP BY id_enc,id_cliente,id_piso,layer;";
+  cnn.query(sql, (err, resd) => {
+    if (err) {
+      console.log("error consulta de el encabezada de la factura");
+    } else {
+      cnn.query(
+        "SELECT  ROUND(SUM(precio), 2) AS sum FROM encabezadofac WHERE id_cliente = '" +
+        doc +
+        "' AND id_enc = '1'",
+        (err, sum) => {
+          if (err) {
+            throw err;
+          } else {
+            cnn.query(
+              "SELECT * FROM factura WHERE id_encabezado = 5000 AND id_cliente = '" +
+              doc +
+              "'",
+              (expx, rept) => {
+                cnn.query(
+                  "UPDATE encabezadofac SET id_enc = '" +
+                  rept[0].id_factura +
+                  "' WHERE id_enc='1' AND id_cliente='" +
+                  doc +
+                  "'"
+                ), (err) => {
+                  if (err) {
+                    throw err;
+                  }
+                };
+                console.log("si esta actualizando el factura");
+                cnn.query(
+                  "UPDATE factura SET id_encabezado = '" +
+                  rept[0].id_factura +
+                  "',total = '" +
+                  sum[0].sum +
+                  "' WHERE id_factura = '" +
+                  rept[0].id_factura +
+                  "'"
+                ), (err) => {
+                  if (err) {
+                    throw err;
+                  } else {
 
-  console.log("🚀 ~ file: controller.js:58 ~ controller.base= ~ bas:", bas);
-
-  console.log(bas);
+                  }
+                };
+                console.log("si esta eliminando");
+                cnn.query(
+                  "DELETE FROM factura WHERE id_encabezado='5000' AND id_cliente = '" +
+                  doc +
+                  "'"
+                );  
+              }
+            );
+          }
+        }
+      );
+    }
+  });
+  res.redirect("/pisos");
 };
 
 controller.finalizar = async (req, res) => {
   const doc = req.session.docu;
-
   const fonts = require("./fonts");
-
   const conte = req.body;
-  console.log(
-    "🚀 ~ file: controller.js:74 ~ controller.finalizar= ~ conte:",
-    conte
-  );
+
   let docDefinition = {
     content: [
       {
@@ -117,6 +172,7 @@ controller.finalizar = async (req, res) => {
       },
     ],
   });
+  res.redirect("/pisos");
 };
 
 controller.precios = (req, res) => {
@@ -146,12 +202,12 @@ controller.actprec = (req, res) => {
 
   cnn.query(
     "UPDATE pisosprec SET layer1= '" +
-      ll +
-      "', layer3='" +
-      yy +
-      "' WHERE idpisos = '" +
-      id +
-      "'",
+    ll +
+    "', layer3='" +
+    yy +
+    "' WHERE idpisos = '" +
+    id +
+    "'",
     (err) => {
       if (err) {
         throw err;
@@ -168,12 +224,12 @@ controller.actinv = (req, res) => {
 
   cnn.query(
     "UPDATE pisos SET inventario= '" +
-      ll +
-      "', inventario3='" +
-      yy +
-      "' WHERE id = '" +
-      id +
-      "'",
+    ll +
+    "', inventario3='" +
+    yy +
+    "' WHERE id = '" +
+    id +
+    "'",
     (err) => {
       if (err) {
         throw err;
@@ -186,8 +242,8 @@ controller.compra = async (req, res) => {
   const id = req.body.dd;
   cnn.query(
     "SELECT * FROM encabezadofac INNER JOIN pisos ON (encabezadofac.id_piso=pisos.id) WHERE id_enc = '" +
-      id +
-      "'",
+    id +
+    "'",
     (err, results) => {
       if (err) {
         throw err;
@@ -221,10 +277,10 @@ controller.piso = (req, res, next) => {
 
   cnn.query(
     "UPDATE pisos SET inventario=inventario-'" +
-      cant +
-      "' WHERE id = '" +
-      id +
-      "'"
+    cant +
+    "' WHERE id = '" +
+    id +
+    "'"
   );
   cnn.query("INSERT INTO encabezadofac SET ?", {
     id_enc: d,
@@ -327,17 +383,17 @@ controller.elimcarrito = (req, res) => {
   const cant = req.body.cc;
   cnn.query(
     "UPDATE pisos SET inventario = inventario +'" +
-      cant +
-      "' WHERE id ='" +
-      piso +
-      "'"
+    cant +
+    "' WHERE id ='" +
+    piso +
+    "'"
   );
   cnn.query(
     "DELETE FROM encabezadofac WHERE id_enc = '" +
-      id +
-      "' AND id_piso = '" +
-      piso +
-      "'",
+    id +
+    "' AND id_piso = '" +
+    piso +
+    "'",
     async (err) => {
       if (err) {
         console.log("error al eliminar en el encabezado de la factura");
@@ -363,16 +419,16 @@ controller.lista = async (req, res, next) => {
     } else {
       cnn.query(
         "SELECT  ROUND(SUM(precio), 2) AS sum FROM encabezadofac WHERE id_cliente = '" +
-          doc +
-          "' AND id_enc = '1'",
+        doc +
+        "' AND id_enc = '1'",
         (err, sum) => {
           if (err) {
             throw err;
           } else {
             cnn.query(
               "SELECT * FROM factura WHERE id_encabezado = 5000 AND id_cliente = '" +
-                doc +
-                "'",
+              doc +
+              "'",
               (expx, rept) => {
                 if (rept.length === 0) {
                   res.redirect("vacio");
@@ -430,16 +486,16 @@ controller.calcpdf = (req, res) => {
     } else {
       cnn.query(
         "SELECT  ROUND(SUM(precio), 2) AS sum FROM encabezadofac WHERE id_cliente = '" +
-          doc +
-          "' AND id_enc = '1'",
+        doc +
+        "' AND id_enc = '1'",
         (err, sum) => {
           if (err) {
             throw err;
           } else {
             cnn.query(
               "SELECT * FROM factura WHERE id_encabezado = 5000 AND id_cliente = '" +
-                doc +
-                "'",
+              doc +
+              "'",
               (expx, rept) => {
                 if (rept.length === 0) {
                   res.redirect("vacio");
