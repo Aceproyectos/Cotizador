@@ -1,7 +1,7 @@
 const fomu = document.querySelector("#tab");
 fomu.addEventListener("submit", async function (e) {
   e.preventDefault();
-  const data = await fetch("https://acemardistributors.com/calcpdf");
+  const data = await fetch("http://localhost:3000/calcpdf");
   const json = await data.json();
 
   const content = {
@@ -17,6 +17,7 @@ fomu.addEventListener("submit", async function (e) {
         border: "1px solid black",
       },
     },
+    style: "tableExample",
     table: {
       headerRows: 1,
       widths: [
@@ -32,15 +33,15 @@ fomu.addEventListener("submit", async function (e) {
       ],
       body: [
         [
-          "Product",
-          "SKU",
-          "Top Layer",  
-          "Pallets",
-          "SQF per Pallet",
-          "Boxes per pallet",
-          "SQL per Box",
-          "Unit Price SQF",
-          "Total",
+          { text: "Product", style: "tableHeader" },
+          { text: "SKU", style: "tableHeader" },
+          { text: "Top Layer", style: "tableHeader" },
+          { text: "Pallets", style: "tableHeader" },
+          { text: "SQF per Pallet", style: "tableHeader" },
+          { text: "Boxes per pallet", style: "tableHeader" },
+          { text: "SQL per Box", style: "tableHeader" },
+          { text: "Unit Price SQF", style: "tableHeader" },
+          { text: "Total", style: "tableHeader" },
         ],
         ...json.datos.map((item) => {
           const values = Object.keys(item).map((key) => item[key]);
@@ -50,17 +51,18 @@ fomu.addEventListener("submit", async function (e) {
         }),
       ],
     },
+    layout: 'lightHorizontalLines',
   };
   console.log(JSON.stringify(content, null, 2));
-  
 
-  await fetch("https://acemardistributors.com/finalizar", {
+  await fetch("http://localhost:3000/finalizar", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(content),
   });
 
-  await fetch("https://acemardistributors.com/base", {
+  await fetch("http://localhost:3000/base", {
     method: "POST",
   });
+  window.location.href = "http://localhost:3000/pisos";
 });

@@ -8,5 +8,9 @@ module.exports = {
       require("pdfmake/build/vfs_fonts.js").pdfMake.vfs["Roboto-Medium.ttf"],
       "base64"
     ),
+    italics: Buffer.from(
+      require("pdfmake/build/vfs_fonts.js").pdfMake.vfs["Roboto-Italic.ttf"],
+      "base64"
+    ),
   },
 };
