@@ -1,7 +1,7 @@
 const fomu = document.querySelector("#tab");
 fomu.addEventListener("submit", async function (e) {
   e.preventDefault();
-  const data = await fetch("http://localhost:3000/calcpdf");
+  const data = await fetch("https://acemardistributors.com/calcpdf");
   const json = await data.json();
 
   const content = {
@@ -54,14 +54,13 @@ fomu.addEventListener("submit", async function (e) {
   console.log(JSON.stringify(content, null, 2));
   
 
-  await fetch("http://localhost:3000/finalizar", {
+  await fetch("https://acemardistributors.com/finalizar", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(content),
   });
 
-  await fetch("http://localhost:3000/base", {
+  await fetch("https://acemardistributors.com/base", {
     method: "POST",
   });
-  window.location.href = "http://localhost:3000/pisos";
 });
