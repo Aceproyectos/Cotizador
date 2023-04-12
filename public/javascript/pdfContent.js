@@ -3,12 +3,23 @@ fomu.addEventListener("submit", async function (e) {
   e.preventDefault();
   const data = await fetch("http://localhost:3000/calcpdf");
   const json = await data.json();
+  console.log("🚀 ~ file: pdfContent.js:6 ~ json:", json);
 
+  const sumaSegundaColumna = json.datos
+    .map((item) => {
+      const values = Object.keys(item).map((key) => item[key]);
+      return values[3]; // Devuelve solo el valor de la segunda columna
+    })
+    .reduce((acc, curr) => acc + curr, 0); // Suma todos los valores de la segunda columna
+  const sumaRedondeada = sumaSegundaColumna.toFixed(2);
   const content = {
+    defaultStyle: {
+      pageOrientation: "landscape",
+    },
     style: {
       table: {
         border: "1px solid black",
-        fontSize: 10,
+        fontSize: 40,
       },
       th: {
         border: "1px solid black",
@@ -33,15 +44,51 @@ fomu.addEventListener("submit", async function (e) {
       ],
       body: [
         [
-          { text: "Product", style: "tableHeader" },
-          { text: "SKU", style: "tableHeader" },
-          { text: "Top Layer", style: "tableHeader" },
-          { text: "Pallets", style: "tableHeader" },
-          { text: "SQF per Pallet", style: "tableHeader" },
-          { text: "Boxes per pallet", style: "tableHeader" },
-          { text: "SQL per Box", style: "tableHeader" },
-          { text: "Unit Price SQF", style: "tableHeader" },
-          { text: "Total", style: "tableHeader" },
+          {
+            text: "Product",
+            style: { fontSize: 13, bold: true },
+            margin: [0, 0, 0, 10],
+          },
+          {
+            text: "SKU",
+            style: { fontSize: 13, bold: true },
+            margin: [0, 0, 0, 10],
+          },
+          {
+            text: "Top Layer",
+            style: { fontSize: 13, bold: true },
+            margin: [15, 0, 0, 10],
+          },
+          {
+            text: "Pallets",
+            style: { fontSize: 13, bold: true },
+            margin: [15, 0, 0, 10],
+          },
+          {
+            text: "SQF per Pallet",
+            style: { fontSize: 13, bold: true },
+            margin: [15, 0, 0, 10],
+          },
+          {
+            text: "Boxes per pallet",
+            style: { fontSize: 13, bold: true },
+            margin: [15, 0, 0, 10],
+          },
+          {
+            text: "SQL per Box",
+            style: { fontSize: 13, bold: true },
+            margin: [15, 0, 0, 10],
+          },
+          {
+            text: "Unit Price SQF",
+            style: { fontSize: 13, bold: true },
+            margin: [15, 0, 0, 10],
+          },
+          {
+            text: "Total",
+            style: { fontSize: 13, bold: true },
+            margin: [15, 0, 0, 10],
+          },
         ],
         ...json.datos.map((item) => {
           const values = Object.keys(item).map((key) => item[key]);
@@ -49,11 +96,66 @@ fomu.addEventListener("submit", async function (e) {
           values.push(topLayerValue);
           return values;
         }),
+        [
+          { text: "", border: [false, false, false, false] }, // establece "border" en "false" para las celdas vacías
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+        ],
+        [
+          { text: "", border: [false, false, false, false] }, // establece "border" en "false" para las celdas vacías
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "Subtotal", border: [false, false, false, false] },
+          { text: sumaRedondeada, border: [false, false, false, false] },
+        ],
+        [
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "Taks", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+        ],
+        [
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "Shipping", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+        ],
+        [
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "", border: [false, false, false, false] },
+          { text: "Total", bold:true, border: [false, false, false, false] },
+          { text: sumaRedondeada, border: [false, false, false, false] },
+        ],
       ],
     },
-    layout: 'lightHorizontalLines',
+    layout: "lightHorizontalLines",
+    alignment: "center",
   };
-  console.log(JSON.stringify(content, null, 2));
 
   await fetch("http://localhost:3000/finalizar", {
     method: "POST",
