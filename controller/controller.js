@@ -160,7 +160,6 @@ controller.finalizar = async (req, res) => {
 
     footer: {
       columns: [
-        
         {
           text: "2310 Tall Pines Drive - Suite 230, Largo Florida 33771",
           alignment: "center",
@@ -352,18 +351,25 @@ controller.piso = (req, res, next) => {
   if (gro == 1.5) {
     ly = ly1 * cant;
     cod = cod1;
+    cnn.query(
+      "UPDATE pisos SET inventario=inventario-'" +
+        cant +
+        "' WHERE id = '" +
+        id +
+        "'"
+    );
   } else {
     ly = ly3 * cant;
     cod = cod3;
+    cnn.query(
+      "UPDATE pisos SET inventario3=inventario3-'" +
+        cant +
+        "' WHERE id = '" +
+        id +
+        "'"
+    );
   }
 
-  cnn.query(
-    "UPDATE pisos SET inventario=inventario-'" +
-      cant +
-      "' WHERE id = '" +
-      id +
-      "'"
-  );
   cnn.query("INSERT INTO encabezadofac SET ?", {
     id_enc: d,
     id_cliente: doc,
@@ -464,13 +470,25 @@ controller.elimcarrito = (req, res) => {
   const id = req.body.dd;
   const piso = req.body.pp;
   const cant = req.body.cc;
-  cnn.query(
-    "UPDATE pisos SET inventario = inventario +'" +
-      cant +
-      "' WHERE id ='" +
-      piso +
-      "'"
-  );
+  const ly = req.body.ll;
+  console.log("🚀 ~ file: controller.js:474 ~ ly:", ly);
+  if (ly == 3) {
+    cnn.query(
+      "UPDATE pisos SET inventario3 = inventario3 +'" +
+        cant +
+        "' WHERE id ='" +
+        piso +
+        "'"
+    );
+  }else{
+    cnn.query(
+      "UPDATE pisos SET inventario = inventario +'" +
+        cant +
+        "' WHERE id ='" +
+        piso +
+        "'"
+    );
+  }
   cnn.query(
     "DELETE FROM encabezadofac WHERE id_enc = '" +
       id +
