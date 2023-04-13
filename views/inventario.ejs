@@ -17,7 +17,7 @@
 
 <body>
     <nav class="navbar">
-        <img src="/images/redes/LOGO-Acemar-Gris-2020 US.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
+        <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
         <ul class="nav justify-content-end me-5">
             <li class="nav-item">
                 <a class="nav-link text-secondary" href="account">Account</a>
@@ -26,10 +26,10 @@
                 <a class="nav-link text-secondary" href="facturas">Invoice</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-secondary" href="precios">Precio</a>
+                <a class="nav-link text-secondary" href="precios">Price</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link bg-light text-secondary" href="inventario">Inventario</a>
+                <a class="nav-link text-secondary bg-light " href="inventario">Inventory</a>
             </li>
             <li class="nav-item">
                 <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
@@ -40,10 +40,10 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th>Producto</th>
+                <th>Product</th>
                 <th>Layer 1.5 mm</th>
                 <th>Layer 3 mm</th>
-                <th>Actualizar</th>
+                <th>Update</th>
             </tr>
         </thead>
         <tbody>
@@ -60,7 +60,7 @@
                         <input type="text" value="<%= datos.inventario3%>" class="l3" id="l3" name="l3">
                     </td>
                     <td>
-                        <input type="submit" class="act" value="Actualizar">
+                        <input type="submit" class="act" value="Update">
                     </td>
                 </tr>
                 <%})%>

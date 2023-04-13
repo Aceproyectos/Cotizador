@@ -15,7 +15,7 @@
 
 <body>
     <nav class="navbar">
-        <img src="/images/redes/LOGO-Acemar-Gris-2020 US.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
+        <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
         <ul class="nav justify-content-end me-5">
             <li class="nav-item">
                 <a class="nav-link text-secondary" href="account">Account</a>
@@ -24,10 +24,10 @@
                 <a class="nav-link text-secondary" href="facturas">Invoice</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link bg-light text-secondary" href="precios">Precio</a>
+                <a class="nav-link text-secondary bg-light " href="precios">Price</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-secondary" href="inventario">Inventario</a>
+                <a class="nav-link text-secondary" href="inventario">Inventory</a>
             </li>
             <li class="nav-item">
                 <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
@@ -40,8 +40,8 @@
             <thead>
                 <tr>
                     <th>id</th>
-                    <th>usuario</th>
-                    <th>precios</th>
+                    <th>User</th>
+                    <th>Prices</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,7 +54,7 @@
                             <%= datos.mail %>
                         </td>
                         <td>
-                            <a href="precli/<%= datos.id %>">precios</a>
+                            <a href="precli/<%= datos.id %>">Prices</a>
                         </td>
                     </tr>
                     <%})%>

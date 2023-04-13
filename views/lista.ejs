@@ -8,6 +8,9 @@
     <title>Acemar</title>
     <script src="javascript/jquery-3.6.1.min.js"></script>
     <script src="/javascript/ElimCarrito.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -19,7 +22,7 @@
 
     <nav class="navbar">
         <ul class="nav justify-content-end me-5 ">
-            <img src="/images/redes/LOGO-Acemar-Gris-2020 US.png" class="ms-5 mt-1" alt="" width="auto" height="40">
+            <img src="/images/redes/acemarUS.png" class="ms-5 mt-1" alt="" width="auto" height="40">
             <img src="/images/redes/waterwille.jpg" class="ms-3" alt="" width="auto" height="50">
         </ul>
         <h3>PRE-ORDER</h3>
@@ -36,6 +39,22 @@
         </ul>
         <div class="mt-2 linea"></div>
     </nav>
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-0 end-0 p-3">
+            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10000">
+                <div class="toast-header">
+                    <img src="/images/redes/Favicon-Acemar.png" class="rounded me-2" width="25" height="auto">
+                    <strong class="me-auto">Acemar</strong>
+                    <small class="text-muted">just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    an email has just been sent to <%= co%> with the pre-order
+                </div>
+            </div>
+        </div>
+    </div>
+
     <table id="tabla" name="table">
         <thead>
             <tr>
@@ -135,6 +154,13 @@
     </div>
     </form>
     <script src="/javascript/pdfContent.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.fin').on('click', function () {
+                $('.toast').toast('show');
+            });
+        })
+    </script>
 </body>
 
 

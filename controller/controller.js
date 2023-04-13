@@ -480,7 +480,7 @@ controller.elimcarrito = (req, res) => {
         piso +
         "'"
     );
-  }else{
+  } else {
     cnn.query(
       "UPDATE pisos SET inventario = inventario +'" +
         cant +
@@ -508,6 +508,7 @@ controller.elimcarrito = (req, res) => {
 
 controller.lista = async (req, res, next) => {
   const doc = req.session.docu;
+  const cor = req.session.cor;
   var sql =
     "SELECT id_enc,id_cliente,id_piso,codigo,imagen,cantidad,precio,layer,producto,ROUND(SUM(precio),2) AS precg, SUM(cantidad) AS cantg FROM encabezadofac INNER JOIN pisos ON(encabezadofac.id_piso=pisos.id) WHERE id_enc= '" +
     1 +
@@ -535,7 +536,12 @@ controller.lista = async (req, res, next) => {
                   res.redirect("vacio");
                 } else {
                   calcpdf(resd);
-                  res.render("lista", { datos: resd, prec: sum, fac: rept });
+                  res.render("lista", {
+                    datos: resd,
+                    prec: sum,
+                    fac: rept,
+                    co: cor,
+                  });
                 }
               }
             );
