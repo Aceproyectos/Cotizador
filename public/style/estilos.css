@@ -10,7 +10,9 @@
 #account{
   width: 700px;
 }
-
+.cliente{
+  margin-left: -45%;
+}
 .final{
   margin-top: 45px;
   margin-left: 20%;

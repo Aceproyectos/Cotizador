@@ -18,7 +18,8 @@
 <body>
   <nav class="navbar">
       <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
-    <ul class="nav justify-content-end me-5">
+      <img src="/images/perfil/<%= perf %>" class="navbar-brand cliente" alt="" width="auto" height="70">
+    <ul class="nav justify-content-end me-5"> 
       <li class="nav-item">
         <a class="nav-link bg-light text-secondary" href="pisos">Floorings</a>
       </li>
@@ -42,7 +43,7 @@
             <section>
               <div class="articulo">
                 <a class="text-decoration-none text-center" href="flooring/<%= datos.id%>">
-                  <img class="puerta" src="images/flooring/<%=datos.directorio%>/<%=datos.imgpiso%>"/>
+                  <img class="puerta" src="images/flooring/<%=datos.imgpiso%>"/>
                   <h4 style="font-size: 18px; color: rgb(107, 105, 105); margin-bottom: 10px" class="nom-prod">
                     <%= datos.producto%>
                   </h4>

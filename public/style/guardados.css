@@ -129,6 +129,12 @@ table tr td:first-child::before {
   border-radius: 20px;
   outline: none;
 }
+.client{
+  margin-left: -20%;
+}
+h3{
+  text-align: center;
+}
 .img-del {
   height: 20px;
   width: 20px;

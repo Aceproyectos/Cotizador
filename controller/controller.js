@@ -6,6 +6,9 @@ const path = require("path");
 const nodemailer = require("nodemailer");
 const Pdfprinter = require("pdfmake");
 const fs = require("fs");
+var base64Img = require("base64-img");
+const multer = require("multer");
+const { countReset } = require("console");
 
 controller.index = (req, res, next) => {
   res.render("index");
@@ -36,6 +39,187 @@ controller.facturas = (req, res, next) => {
 };
 controller.vacio = (req, res, next) => {
   res.render("vacio");
+};
+controller.productos = (req, res, next) => {
+  res.render("productos");
+};
+controller.actupro = (req, res, next) => {
+  res.render("actupro");
+};
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/images/flooring"); // set the directory where the file will be stored
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const filename = `${file.fieldname}-${Date.now()}${ext}`;
+    cb(null, filename); // set the filename of the file
+  },
+});
+
+// Initialize the multer middleware with the storage configuration
+const upload = multer({ storage: storage });
+
+controller.produc = (req, res) => {
+  // Handle the file upload using the upload middleware
+  upload.single("image")(req, res, (err) => {
+    if (err) {
+      throw err;
+    }
+    const img = req.file.filename; // get the filename of the uploaded file
+    const producto = req.body.pro;
+    const ly1 = req.body.layer1;
+    const ly3 = req.body.layer3;
+    const invt1 = req.body.ily1;
+    const invt3 = req.body.ily3;
+    cnn.query(
+      "INSERT INTO pisos SET ?",
+      {
+        producto: producto,
+        imgpiso: img,
+        cod1: ly1,
+        cod3: ly3,
+        inventario: invt1,
+        inventario3: invt3,
+      },
+      (err) => {
+        if (err) {
+          throw err;
+        } else {
+          res.redirect("productos");
+        }
+      }
+    );
+  });
+};
+
+controller.actuproduc = (req, res) => {
+  // Handle the file upload using the upload middleware
+  upload.single("image")(req, res, (err) => {
+    if (err) {
+      throw err;
+    }
+    const producto = req.body.pro;
+    const ly1 = req.body.layer1;
+    const ly3 = req.body.layer3;
+    const invt1 = req.body.ily1;
+    const invt3 = req.body.ily3;
+    const id = req.body.id;
+    if (req.file) {
+      const img = req.file.filename; // get the filename of the uploaded file
+      cnn.query(
+        "UPDATE pisos SET producto = '" +
+          producto +
+          "', imgpiso = '" +
+          img +
+          "', cod1 = '" +
+          ly1 +
+          "', cod3 = '" +
+          ly3 +
+          "', inventario = '" +
+          invt1 +
+          "', inventario3 = '" +
+          invt3 +
+          "' WHERE id = '" +
+          id +
+          "'",
+        (err) => {
+          if (err) {
+            throw err;
+          } else {
+            res.redirect("productos");
+          }
+        }
+      );
+    } else {
+      cnn.query(
+        "UPDATE pisos SET producto = '" +
+          producto +
+          "', cod1 = '" +
+          ly1 +
+          "', cod3 = '" +
+          ly3 +
+          "', inventario = '" +
+          invt1 +
+          "', inventario3 = '" +
+          invt3 +
+          "' WHERE id = '" +
+          id +
+          "'",
+        (err) => {
+          if (err) {
+            throw err;
+          } else {
+            res.redirect("productos");
+          }
+        }
+      );
+    }
+  });
+};
+
+controller.productos = (req, res) => {
+  cnn.query("SELECT * FROM pisos", (err, results) => {
+    if (err) {
+      throw err;
+    } else {
+      res.render("productos", { datos: results });
+    }
+  });
+};
+
+controller.updprod = (req, res) => {
+  const id = req.body.dd;
+  const producto = req.body.pp;
+  const cod1 = req.body.cc;
+  const cod3 = req.body.ccc;
+  const inv1 = req.body.ii;
+  const inv3 = req.body.io;
+  let img = req.body.ii;
+  console.log("🚀 ~ file: controller.js:110 ~ img:", img);
+
+  // Si se subió una imagen, se guarda y se actualiza el campo imgpiso
+  if (req.files && req.files.imagen) {
+    const file = req.files.imagen;
+    const extension = file.name.split(".").pop();
+    const filename = `${id}.${extension}`;
+
+    file.mv(`./public/images/flooring/${filename}`, (err) => {
+      if (err) {
+        throw err;
+      } else {
+        img = filename;
+
+        // Se actualizan los campos en la base de datos
+        cnn.query(
+          "UPDATE pisos SET producto=?,imgpiso=?,cod1=?,cod3=?,inventario=?,inventario3=? WHERE id = ?",
+          [producto, img, cod1, cod3, inv1, inv3, id],
+          (err) => {
+            if (err) {
+              throw err;
+            } else {
+              res.redirect("productos");
+            }
+          }
+        );
+      }
+    });
+  } else {
+    console.log(img);
+    // Si no se subió una imagen, se actualizan solo los otros campos en la base de datos
+    cnn.query(
+      "UPDATE pisos SET producto=?,imgpiso=?,cod1=?,cod3=?,inventario=?,inventario3=? WHERE id = ?",
+      [producto, img, cod1, cod3, inv1, inv3, id],
+      (err) => {
+        if (err) {
+          throw err;
+        } else {
+          res.redirect("productos");
+        }
+      }
+    );
+  }
 };
 
 controller.facturas = (req, res) => {
@@ -120,14 +304,29 @@ controller.base = async (req, res) => {
   res.redirect("/pisos");
 };
 
+controller.elimpro = (req, res) => {
+  const id = req.body.pp;
+  cnn.query("DELETE FROM pisos WHERE id = '" + id + "'", (err) => {
+    if (err) {
+      throw err;
+    } else {
+      res.redirect("/productos");
+    }
+  });
+};
+
 controller.finalizar = async (req, res) => {
   const doc = req.session.docu;
   const cor = req.session.cor;
+  const perf = req.session.per;
   const fonts = require("./fonts");
   const conte = req.body;
 
   const PdfPrinter = require("pdfmake");
   const printer = new PdfPrinter(fonts);
+  var imagenBase64 = base64Img.base64Sync(
+    "./public/images/perfil/" + perf + ""
+  );
 
   var docDefinition = {
     pageSize: "LEGAL",
@@ -140,10 +339,10 @@ controller.finalizar = async (req, res) => {
         absolutePosition: { x: 50, y: 20 },
       },
       {
-        image: "water",
-        width: 100,
-        height: 60,
-        absolutePosition: { x: 850, y: 20 },
+        image: imagenBase64,
+        fit: [60, 60],
+        ratio: true,
+        absolutePosition: { x: 800, y: 20 },
       },
       {
         text: "PRE-ORDER",
@@ -163,18 +362,21 @@ controller.finalizar = async (req, res) => {
         {
           text: "2310 Tall Pines Drive - Suite 230, Largo Florida 33771",
           alignment: "center",
-          fontSize: 8,
+          fontSize: 13,
           margin: [0, 0, 0, 40],
+          color: "green",
         },
         {
           text: "727 584 3711",
           alignment: "center",
-          fontSize: 8,
+          fontSize: 13,
+          color: "green",
         },
         {
           text: "sales@acemar.us",
           alignment: "center",
-          fontSize: 8,
+          fontSize: 13,
+          color: "green",
         },
       ],
     },
@@ -266,7 +468,46 @@ controller.precios = (req, res) => {
     }
   });
 };
-
+controller.inserprecli = (req, res) => {
+  const prod = req.body.producto;
+  const ly1 = req.body.layer1;
+  const ly3 = req.body.layer3;
+  const ido = req.body.ido;
+  cnn.query(
+    "INSERT INTO pisosprec SET ?",
+    {
+      idcliente: ido,
+      idpisos: prod,
+      layer1: ly1,
+      layer3: ly3,
+    },
+    (err, rs) => {
+      if (err) {
+        throw err;
+      } else {
+        res.redirect("precli/" + ido + "");
+      }
+    }
+  );
+};
+controller.elimprecli = (req, res) => {
+  const piso = req.body.pp;
+  const clit = req.body.cc;
+  cnn.query(
+    "DELETE FROM pisosprec WHERE idcliente='" +
+      clit +
+      "' AND idpisos='" +
+      piso +
+      "'",
+    (err) => {
+      if (err) {
+        throw err;
+      } else {
+        res.redirect("precli/" + clit + "");
+      }
+    }
+  );
+};
 controller.inventario = (req, res) => {
   cnn.query("SELECT * FROM pisos", (err, results) => {
     if (err) {
@@ -391,6 +632,7 @@ controller.piso = (req, res, next) => {
 controller.validarlogin = async (req, res, next) => {
   const usu = await req.body.user;
   const con = await req.body.pass;
+  console.log("🚀 ~ file: controller.js:635 ~ controller.validarlogin= ~ con :", con )
   cnn.query(
     "SELECT * FROM cliente WHERE mail=?",
     [usu],
@@ -403,6 +645,7 @@ controller.validarlogin = async (req, res, next) => {
           req.session.Login = true;
           const doc = (req.session.docu = results[0].id);
           const cor = (req.session.cor = results[0].mail);
+          const per = (req.session.per = results[0].perfil);
           let rol = results[0].rol;
           switch (rol) {
             case "admin":
@@ -424,44 +667,160 @@ controller.validarlogin = async (req, res, next) => {
   );
 };
 
-controller.client = async (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.pass;
-  const phon = req.body.phone;
-  const rolex = req.body.rolex;
-  const add = req.body.address;
-  const pos = req.body.postal;
-  const sta = req.body.state;
-  const pass = await bcrypt.hash(password, 8);
+const storaperfil = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/images/perfil"); // set the directory where the file will be stored
+  },
+  filename: function (req, file, cb) {
+    const ext = path.extname(file.originalname);
+    const filename = `${file.fieldname}-${Date.now()}${ext}`;
+    cb(null, filename); // set the filename of the file
+  },
+});
 
-  cnn.query(
-    "INSERT INTO cliente SET ?",
-    {
-      mail: email,
-      password: pass,
-      phone: phon,
-      rol: rolex,
-      address: add,
-      postal: pos,
-      state: sta,
-    },
-    (err) => {
-      if (err) {
-        throw err;
-        console.log("Error al crear la cuenta");
-      } else {
-        res.redirect("/account");
-      }
+const uploada = multer({ storage: storaperfil });
+
+controller.client = async (req, res, next) => {
+  const password = String(req.body.pass);
+  const pass = await bcrypt.hash(password, 8);
+  uploada.single("image")(req, res, (err) => {
+    if (err) {
+      throw err;
     }
-  );
+    const img = req.file.filename;
+    const email = req.body.email;
+    const phon = req.body.phone;
+    const rolex = req.body.rolex;
+    const add = req.body.address;
+    const pos = req.body.postal;
+    const sta = req.body.state;
+    cnn.query(
+      "INSERT INTO cliente SET ?",
+      {
+        mail: email,
+        password: pass,
+        phone: phon,
+        rol: rolex,
+        address: add,
+        postal: pos,
+        state: sta,
+        perfil: img,
+      },
+      (err) => {
+        if (err) {
+          throw err;
+          console.log("Error al crear la cuenta");
+        } else {
+          res.redirect("/account");
+        }
+      }
+    );
+  });
+};
+
+controller.actclient = async (req, res, next) => {
+  const password = String(req.body.pass);
+  const pass = await bcrypt.hash(password, 8);
+  uploada.single("image")(req, res, (err) => {
+    if (err) {
+      throw err;
+    }
+    const id = req.body.id;
+    const email = req.body.email;
+    const phon = req.body.phone;
+    const rolex = req.body.rolex;
+    const add = req.body.address;
+    const pos = req.body.postal;
+    const sta = req.body.state;
+    if (req.file) {
+      const img = req.file.filename;
+      cnn.query(
+        "UPDATE cliente SET mail='" +
+          email +
+          "', password='" +
+          pass +
+          "', phone='" +
+          phon +
+          "', rol='" +
+          rolex +
+          "', address='" +
+          add +
+          "',postal='" +
+          pos +
+          "',state='" +
+          sta +
+          "', perfil='" +
+          img +
+          "' WHERE id=" +
+          id +
+          "",
+        (err) => {
+          if (err) {
+            throw err;
+          } else {
+            res.redirect("account");
+          }
+        }
+      );
+    } else {
+      cnn.query(
+        "UPDATE cliente SET mail='" +
+          email +
+          "', password='" +
+          pass +
+          "', phone='" +
+          phon +
+          "', rol='" +
+          rolex +
+          "', address='" +
+          add +
+          "',postal='" +
+          pos +
+          "',state='" +
+          sta +
+          "' WHERE id= '" +
+          id +
+          "'",
+        (err) => {
+          if (err) {
+            throw err;
+          } else {
+            res.redirect("account");
+          }
+        }
+      );
+    }
+  });
+};
+
+controller.elimaccount = (req, res) => {
+  const id = req.body.pp;
+  cnn.query("DELETE FROM cliente WHERE id='" + id + "'", (err) => {
+    if (err) {
+      throw err;
+    } else {
+      res.redirect("account");
+    }
+  });
+};
+
+controller.account = (req, res) => {
+  cnn.query("SELECT * FROM cliente", (err, resd) => {
+    if (err) {
+      throw err;
+    } else {
+      res.render("account", { data: resd });
+    }
+  });
 };
 
 controller.pisos = (req, res) => {
+  const per = req.session.per;
   cnn.query("SELECT * FROM pisos", (err, resd) => {
     if (err) {
       console.log("error consulta de los pisos");
     } else {
-      res.render("pisos", { datos: resd });
+      res.render("pisos", { datos: resd, perf: per });
     }
   });
 };
@@ -509,6 +868,7 @@ controller.elimcarrito = (req, res) => {
 controller.lista = async (req, res, next) => {
   const doc = req.session.docu;
   const cor = req.session.cor;
+  const per = req.session.per;
   var sql =
     "SELECT id_enc,id_cliente,id_piso,codigo,imagen,cantidad,precio,layer,producto,ROUND(SUM(precio),2) AS precg, SUM(cantidad) AS cantg FROM encabezadofac INNER JOIN pisos ON(encabezadofac.id_piso=pisos.id) WHERE id_enc= '" +
     1 +
@@ -518,6 +878,7 @@ controller.lista = async (req, res, next) => {
   cnn.query(sql, (err, resd) => {
     if (err) {
       console.log("error consulta de el encabezada de la factura");
+      throw err;
     } else {
       cnn.query(
         "SELECT  ROUND(SUM(precio), 2) AS sum FROM encabezadofac WHERE id_cliente = '" +
@@ -541,6 +902,7 @@ controller.lista = async (req, res, next) => {
                     prec: sum,
                     fac: rept,
                     co: cor,
+                    perf: per,
                   });
                 }
               }

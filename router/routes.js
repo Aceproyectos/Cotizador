@@ -17,20 +17,41 @@ router.get("/facturas", controller.facturas);
 router.get("/vacio", controller.vacio);
 router.get("/precios", controller.precios);
 router.get("/inventario", controller.inventario);
+router.get("/productos", controller.productos);
 router.post("/facturas", controller.facturas);
 router.post("/index", controller.index);
 router.post("/prueba", controller.prueba);
 router.post("/piso", controller.piso);
 router.post("/client", controller.client);
+router.post("/actclient", controller.actclient);
 router.post("/pisos", controller.pisos);
+router.post("/elimaccount", controller.elimaccount);
 router.post("/validarlogin", controller.validarlogin);
 router.post("/elimcarrito", controller.elimcarrito);
 router.post("/finalizar", controller.finalizar);
 router.post("/actprec", controller.actprec);
 router.post("/actinv", controller.actinv);
 router.post("/base", controller.base);
-
+router.post("/inserprecli", controller.inserprecli);
+router.post("/elimprecli", controller.elimprecli);
+router.post("/elimpro", controller.elimpro);
+router.post("/account", controller.account);
+router.post("/produc", controller.produc);
+router.post("/productos", controller.productos);
+router.post("/updprod", controller.updprod);
+router.post("/actuproduc", controller.actuproduc);
 router.get("/calcpdf", controller.calcpdf);
+
+router.get("/actupro/:id", (req,res) => {
+  const id = req.params.id;
+  connection.query("SELECT * FROM pisos WHERE id=?",[id], (err, reslt) => {
+    if(err){
+      throw err;
+    }else{
+      res.render("actupro", {datos:reslt});
+    }
+  });
+});
 
 router.get("/formulario/:id", (req, res) => {
   const id = req.params.id;
@@ -60,6 +81,7 @@ router.get("/formulario/:id", (req, res) => {
 router.get("/flooring/:id", (req, res) => {
   const id = req.params.id;
   const doc = req.session.docu;
+  const per = req.session.per;
   connection.query("SELECT * FROM pisos WHERE id=?", [id], (err, results) => {
     if (err) {
       throw err;
@@ -72,7 +94,7 @@ router.get("/flooring/:id", (req, res) => {
           [id] +
           "'",
         (err, prec) => {
-          res.render("flooring", { datos: results[0], precio: prec[0] });
+          res.render("flooring", { datos: results[0], precio: prec[0] , perf:per});
         }
       );
     }
@@ -115,12 +137,31 @@ router.get("/precli/:id", (req, res) => {
       if (err) {
         throw err;
       } else {
-        res.render("precli", { datos: results });
+        connection.query("SELECT * FROM pisos", (err, resul) => {
+          if (err) {
+            throw err;
+          } else {
+            res.render("precli", { datos: results, pis : resul, ido: id });
+          }
+        });
       }
     }
   );
 });
 
+
+router.get("/actaccont/:id", (req, res) => {
+  const id = req.params.id;
+  connection.query(
+    "SELECT * FROM cliente WHERE id = '"+id+"'", (err, resd) => {
+      if(err){
+        throw err;
+      }else{
+        res.render("actaccont", {datos: resd});
+      }
+    }
+  );
+});
 
 function nocache(res) {
   res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");

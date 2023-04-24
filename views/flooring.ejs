@@ -25,6 +25,7 @@
 <body>
   <nav class="navbar">
     <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
+      <img src="/images/perfil/<%= perf %>" class="navbar-brand cliente" alt="" width="auto" height="70">
     <ul class="nav justify-content-end me-5">
       <li class="nav-item">
         <a class="nav-link bg-light text-secondary" href="/pisos">Floorings</a>
@@ -42,7 +43,7 @@
     <div class="cont">
       <% if (datos) { if(precio){%>
         <div class="foto">
-          <img class="presentacion" id="imgproducto" src="/images/flooring/<%=datos.directorio%>/<%=datos.imgpiso%>" />
+          <img class="presentacion" id="imgproducto" src="/images/flooring/<%=datos.imgpiso%>" />
         </div>
         <div class="formulario me-3 pe-5 mt-5 container">
           <input type="hidden" id="core" value="<%= datos.core%>">
@@ -62,7 +63,7 @@
           <form action="/piso" method="post" id="pisos" class="mt-auto">
             <input type="hidden" id="id" name="id" value="<%= datos.id%>">
             <input type="hidden" id="producto" name="producto" value="<%= datos.producto%>">
-            <input type="hidden" id="imagen" class="imagen" value="<%= datos.directorio%>/<%= datos.imgpiso%>"
+            <input type="hidden" id="imagen" class="imagen" value="<%= datos.imgpiso%>"
               name="imagen">
             <input type="hidden" id="layer1" name="layer1" value="<%= precio.layer1%>">
             <input type="hidden" id="layer3" name="layer3" value="<%= precio.layer3%>">
@@ -117,7 +118,7 @@
     <% }}%>
   </div>
   <footer class="text-center text-lg-start">
-    <!-- Grid container -->
+    <!-- Grid container --> 
     <div class="border bg-light container p-4">
       <!--Grid row-->
       <div class="row">
