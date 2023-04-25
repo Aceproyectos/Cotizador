@@ -640,8 +640,8 @@ controller.validarlogin = async (req, res, next) => {
       if (err) {
         next(new Error("Error de consulta login", err));
       }
-      if (results != 0) {
-        if (bcrypt.compareSync(con, results[0].password)) {
+      if (results != 0) { 
+        if (bcrypt.compare(con, results[0].password)) {
           req.session.Login = true;
           const doc = (req.session.docu = results[0].id);
           const cor = (req.session.cor = results[0].mail);
