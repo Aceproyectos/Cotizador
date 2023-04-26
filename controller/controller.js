@@ -458,21 +458,78 @@ controller.finalizar = async (req, res) => {
   });
   res.redirect("/pisos");
 };
-
 controller.precios = (req, res) => {
   cnn.query("SELECT * FROM cliente", (err, resb) => {
     if (err) {
       throw err;
     } else {
-      res.render("precios", { datos: resb });
+      cnn.query(
+        "SELECT * FROM pisosprec INNER JOIN pisos ON(pisosprec.idpisos = pisos.id) WHERE idcliente = 3",
+        (err, results) => {
+          if (err) {
+            throw err;
+          } else {
+            cnn.query("SELECT * FROM pisos", (err, pis) => {
+              if (err) {
+                throw err;
+              } else {
+                res.render("precios", {
+                  datos: resb,
+                  data: results,
+                  piso: pis,
+                });
+              }
+            });
+          }
+        }
+      );
     }
   });
 };
+
+controller.elimpred = (req, res) => {
+  const idpisos = req.body.pp;
+
+  cnn.query(
+    "DELETE FROM pisosprec WHERE idpisos= '" + idpisos + "' AND idcliente = 3",
+    (err) => {
+      if (err) {
+        throw err;
+      } else {
+        res.redirect("/precios");
+      }
+    }
+  );
+};
+
+controller.actpred = (req, res) => {
+  const id = req.body.dd;
+  const layer1 = req.body.ll;
+  const layer3 = req.body.yy;
+
+  cnn.query(
+    "UPDATE pisosprec SET layer1 = '" +
+      layer1 +
+      "', layer3 = '" +
+      layer3 +
+      "' WHERE idpisos = '" +
+      id +
+      "' AND idcliente = 3",
+    (err) => {
+      if (err) {
+        throw err;
+      } else {
+        res.redirect("/precios");
+      }
+    }
+  );
+};
+
 controller.inserprecli = (req, res) => {
   const prod = req.body.producto;
   const ly1 = req.body.layer1;
   const ly3 = req.body.layer3;
-  const ido = req.body.ido;
+  const ido = 3;
   cnn.query(
     "INSERT INTO pisosprec SET ?",
     {
@@ -481,14 +538,23 @@ controller.inserprecli = (req, res) => {
       layer1: ly1,
       layer3: ly3,
     },
-    (err, rs) => {
+    (err) => {
       if (err) {
         throw err;
       } else {
-        res.redirect("precli/" + ido + "");
+        res.redirect("precios");
       }
     }
   );
+};
+controller.precpred = (req, res) => {
+  cnn.query("SELECT * FROM cliente WHERE idcliente = 3", (err, red) => {
+    if (err) {
+      throw err;
+    } else {
+      res.render("precios", { data: red });
+    }
+  });
 };
 controller.elimprecli = (req, res) => {
   const piso = req.body.pp;
@@ -528,12 +594,14 @@ controller.actprec = (req, res) => {
       ll +
       "', layer3='" +
       yy +
-      "' WHERE idpisos = '" +
+      "' WHERE idcliente = '" +
       id +
       "'",
     (err) => {
       if (err) {
         throw err;
+      } else {
+        res.redirect("/precios");
       }
     }
   );
@@ -632,7 +700,6 @@ controller.piso = (req, res, next) => {
 controller.validarlogin = async (req, res, next) => {
   const usu = await req.body.user;
   const con = await req.body.pass;
-  console.log("🚀 ~ file: controller.js:635 ~ controller.validarlogin= ~ con :", con )
   cnn.query(
     "SELECT * FROM cliente WHERE mail=?",
     [usu],
@@ -640,7 +707,7 @@ controller.validarlogin = async (req, res, next) => {
       if (err) {
         next(new Error("Error de consulta login", err));
       }
-      if (results != 0) { 
+      if (results != 0) {
         if (bcrypt.compare(con, results[0].password)) {
           req.session.Login = true;
           const doc = (req.session.docu = results[0].id);
@@ -683,7 +750,7 @@ const uploada = multer({ storage: storaperfil });
 controller.client = async (req, res, next) => {
   const password = String(req.body.pass);
   const pass = await bcrypt.hash(password, 8);
-  uploada.single("image")(req, res, (err) => {
+  uploada.single("image")(req, res, async (err) => {
     if (err) {
       throw err;
     }
@@ -694,7 +761,16 @@ controller.client = async (req, res, next) => {
     const add = req.body.address;
     const pos = req.body.postal;
     const sta = req.body.state;
-    cnn.query(
+    const cli = 3;
+
+    // 1. Obtener los datos del cliente que se quiere copiar
+    const [row] = await cnn.promise().query(
+      "SELECT * FROM pisosprec WHERE idcliente = ?",
+      [3] // Aquí se debe especificar el idcliente del cliente que se quiere copiar
+    );
+    
+    // 2. Insertar el nuevo cliente en la tabla `cliente`
+    const [result] = await cnn.promise().query(
       "INSERT INTO cliente SET ?",
       {
         mail: email,
@@ -705,18 +781,21 @@ controller.client = async (req, res, next) => {
         postal: pos,
         state: sta,
         perfil: img,
-      },
-      (err) => {
-        if (err) {
-          throw err;
-          console.log("Error al crear la cuenta");
-        } else {
-          res.redirect("/account");
-        }
       }
     );
+
+    // 3. Obtener el `idcliente` del cliente recién insertado
+    const clienteId = result.insertId;
+    // 4. Insertar una nueva fila en la tabla `pisosprec` con los mismos datos que la fila correspondiente al cliente que se quiere copiar, pero con el `idcliente` del nuevo cliente.
+    await cnn.promise().query(
+      "INSERT INTO pisosprec (idpisos, layer1, layer3, idcliente) SELECT idpisos,layer1, layer3, ? FROM pisosprec WHERE idcliente = 3",
+      [clienteId]
+    );
+
+    res.redirect("/account");
   });
 };
+
 
 controller.actclient = async (req, res, next) => {
   const password = String(req.body.pass);

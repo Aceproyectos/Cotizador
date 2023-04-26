@@ -40,6 +40,8 @@ router.post("/produc", controller.produc);
 router.post("/productos", controller.productos);
 router.post("/updprod", controller.updprod);
 router.post("/actuproduc", controller.actuproduc);
+router.post("/actpred", controller.actpred);
+router.post("/elimpred", controller.elimpred);
 router.get("/calcpdf", controller.calcpdf);
 
 router.get("/actupro/:id", (req,res) => {

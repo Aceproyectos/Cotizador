@@ -1,18 +1,17 @@
 $(document).ready(function(){
-    $('.act').on('click',function(){
-        let btn=$('.act').index(this);
-        let id=$('.ido').eq(btn);
+    $('.actu').on('click',function(){
+        let btn=$('.actu').index(this);
+        let id=$('.idp').eq(btn);
         let layer1=$('.l1').eq(btn);
         let layer3=$('.l3').eq(btn);
-
 
         let d=id.val();
         let l=layer1.val();
         let y=layer3.val();
-        
+
         $.ajax({
             type:"post",
-            url:'/actprec',
+            url:'/actpred',
             data:{
                 dd:d,
                 ll:l,
