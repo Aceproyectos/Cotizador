@@ -1,10 +1,10 @@
 const mysql = require("mysql2");
 
 const conexion = mysql.createConnection({
-  host: "localhost",
+  host: "31.220.54.202",
   database: "cotizador",
-  user: "root",
-  password: "",
+  user: "acemar",
+  password: "Acemar1959+-",
   // Opción de retry para intentar reconectar automáticamente
   // en caso de una desconexión del servidor.
   // El número de intentos y el intervalo de tiempo entre ellos

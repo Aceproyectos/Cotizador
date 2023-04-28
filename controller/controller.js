@@ -25,9 +25,6 @@ controller.pisos = (req, res, next) => {
 controller.login = (req, res, next) => {
   res.render("login");
 };
-controller.account = (req, res, next) => {
-  res.render("account");
-};
 controller.flooring = (req, res, next) => {
   res.render("flooring");
 };
@@ -443,8 +440,8 @@ controller.finalizar = async (req, res) => {
 
   await transporter.sendMail({
     from: '"Acemar" <acemardistributors.com@gmail.com>', // sender address
-    to: "sistemas@acemar.co",
-    //to: "sistemas@acemar.co, " + cor + "", // list of receivers
+    //to: "sistemas@acemar.co",
+    to: "sistemas@acemar.co, " + cor + "", // list of receivers
     subject: "Acemar", // Subject line
     text: "Thank you for contacting us.  We have sent you an email with a PDF of your order. If you have any question, please feel free to contact us", // plain text body
     attachments: [
