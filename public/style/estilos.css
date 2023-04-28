@@ -68,6 +68,7 @@ footer {
   margin-left: 50px;
   cursor: pointer;
 }
+
 .puerta {
   margin-top: 0%;
   width: 250px;
@@ -77,6 +78,8 @@ footer {
   .articulo:hover {
     box-shadow: 0px 5px 20px black;
   }
+
+  
 @media (min-width: 1800px) and (max-width: 3000px) {
   .columnas {
     display: grid;
@@ -135,4 +138,71 @@ footer {
   #account{
     width: 300px;
   }
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 20px;
+}
+
+.navbar-brand {
+  margin-right: 20px;
+}
+
+.cliente {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.nav {
+  margin: 0;
+}
+
+.nav-link {
+  padding: 15px;
+  font-size: 16px;
+}
+
+.linea {
+  height: 1px;
+  background-color: #ccc;
+  margin-top: 5px;
+}
+
+/* Estilos para pantallas más pequeñas */
+@media screen and (max-width: 768px) {
+  .navbar.mobile-center {
+    text-align: center;
+  }
+  
+  .navbar.mobile-center img {
+    display: block;
+    margin: auto;
+  }
+
+  .navbar {
+    text-align: center;
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nav-item {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .linea {
+    display: none;
+  } 
 }

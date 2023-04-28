@@ -23,7 +23,7 @@
 </head>
 
 <body>
-  <nav class="navbar">
+  <nav class="navbar mb-5">
     <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
       <img src="/images/perfil/<%= perf %>" class="navbar-brand cliente" alt="" width="auto" height="70">
     <ul class="nav justify-content-end me-5">
@@ -39,7 +39,7 @@
     </ul>
     <div class="mt-2 linea"></div>
   </nav>
-  <div class="pt-5 ms-auto me-auto mb-5 completo">
+  <div class="pt-5 ms-auto me-auto mb-5 mt -5 completo">
     <div class="cont">
       <% if (datos) { if(precio){%>
         <div class="foto">
@@ -95,11 +95,11 @@
                 min="1"/>
               <br>
             </li>
-            <h6 class="li-sec caja" id="inv1">stock: <%= datos.inventario%>
+            <h6 class="li-sec cajas" id="inv1">stock: <%= datos.inventario%>
             </h6>
-            <h6 class="li-sec caja" id="inv3">stock: <%= datos.inventario3%>
+            <h6 class="li-sec cajas" id="inv3">stock: <%= datos.inventario3%>
             </h6>
-            <div class="palet bg-light border ms-5 me-auto pt-2 ps-3">
+            <div class="palet bg-light border me-auto pt-2 ps-3" id="palet">
               <h6>Boxes x Pallet: <span id="box"></span>
                 <br>
                 SQF x Pallet: <span id="sqf"></span>
@@ -110,7 +110,7 @@
             <span id="prec" name="prec"></span>
             <div class="text-center">
               <input type="submit" value="Add to Quote" id="agregar"
-                class="btn btn-warning btn btn-outline-light ms-5 agregar" />
+                class="btn btn-warning agregar" />
             </div>
           </form>
         </div>

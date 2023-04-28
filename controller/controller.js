@@ -177,7 +177,6 @@ controller.updprod = (req, res) => {
   const inv1 = req.body.ii;
   const inv3 = req.body.io;
   let img = req.body.ii;
-  console.log("🚀 ~ file: controller.js:110 ~ img:", img);
 
   // Si se subió una imagen, se guarda y se actualiza el campo imgpiso
   if (req.files && req.files.imagen) {

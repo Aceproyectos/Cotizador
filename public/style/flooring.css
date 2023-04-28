@@ -10,6 +10,7 @@
 .palet{
   width: 200px;
   height: 60px;
+  margin-left: 18%;
 }
 #inv1{
   display: none;
@@ -29,31 +30,48 @@
     height: 12rem;
   }
 }
-@media (max-width: 690px) {
+@media (max-width: 320px) {
+  .adicional{
+    margin-top: 20px;
+    width: 12rem;
+    height: 6rem;
+  }
   .cont {
     display: flex;
     flex-direction: row;
     height: 50rem;
   }
+  .palet{
+    margin-left: 10px;
+  }
   .presentacion {
-    margin-top: -42rem;
-    margin-left: 75px;
-    width: 350px;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 230px;
   }
   .foto {
     height: 12rem;
   }
 }
 @media (max-width: 1120px) {
+  .adicional{
+    margin-top: 20px;
+    width: 15rem;
+    height: 6rem;
+  }
   .cont {
     display: flex;
     flex-direction: row;
-    height: 50rem;
+    height: 66rem;
   }
   .presentacion {
     margin-top: 10px;
-    margin-left: 0px;
-    width: 350px;
+    margin-left: 20px;
+    width: 250px;
+  }
+  
+  .quote{
+    margin-left: 99%;
   }
   .foto {
     height: 12rem;

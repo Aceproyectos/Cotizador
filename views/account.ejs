@@ -8,6 +8,7 @@
     <title>Cliente</title>
     <script src="javascript/jquery-3.6.1.min.js"></script>
     <script src="javascript/elimaccont.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="style/estilos.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -52,7 +53,8 @@
                 <div class="input-group-text bg-warning">
                     <i class="fa-solid fa-image text-white"></i>
                 </div>
-                <input required type="file" name="image" placeholder="Image.jpg" class="form-control">
+                <input required type="file" name="image" placeholder="Image.jpg" onchange="change()"
+                    class="form-control">
             </div>
             <div class="input-group mt-2">
                 <div class="input-group-text bg-warning">
@@ -160,5 +162,37 @@
         </tbody>
     </table>
 </body>
+<script>
+    // Obtener el elemento de entrada de archivo y agregar un controlador de eventos
+    var fileInput = document.querySelector('input[type="file"]');
+    fileInput.addEventListener('change', function () {
+        // Obtener la imagen seleccionada
+        var file = fileInput.files[0];
+
+        // Crear un objeto FileReader para leer la imagen
+        var reader = new FileReader();
+        reader.onload = function () {
+            // Crear un objeto de imagen para obtener sus dimensiones
+            var img = new Image();
+            img.onload = function () {
+                // Comprobar si la imagen es mayor de 250x250 píxeles
+                if (img.width > 250 || img.height > 250) {
+                    // Mostrar un mensaje de error al usuario
+                    swal({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this imaginary file!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    // Borrar el valor del elemento de entrada de archivo
+                    fileInput.value = "";
+                }
+            };
+            img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+    });
+</script>
 
 </html>
