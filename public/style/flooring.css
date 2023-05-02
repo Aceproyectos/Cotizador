@@ -1,79 +1,121 @@
+/* en este se esta volviendo el contenido flex para todo aparezca al lado de la imagen */
 .cont {
   display: flex;
   flex-direction: row;
   height: 700px;
 }
-.adicional{
-  width: 300px;
-  height: 60px;
-}
-.palet{
+/* en este se estan manejando las dimeciones del boxes x pallet y sqf x pallet */
+.palet {
   width: 200px;
   height: 60px;
   margin-left: 18%;
 }
-#inv1{
+/* esta es la imagen grande del  piso */
+.presentacion {
+  margin-left: 24px;
+  margin-bottom: 5%;
+  margin-top: -4%;
+  height: auto;
+  width: 450px;
+}
+/* la linea del total */
+.linea-total {
+  background-color: #0000002c;
+  width: 100%;
+  height: 1px;
+  margin-top: 20px;
+}
+/* este es el cuadro en el que esta informacion con un degrade */
+.completo {
+  width: 80%;
+  box-shadow: 0px 0px 4px black;
+}
+/* este me ayuda a que los label se mantengan al lado de los select */
+.label-sec {
+  text-transform: capitalize;
+  font-size: 15px;
+  margin-right: 30px;
+  text-align: center;
+  width: 40%;
+}
+/* me ayuda a quitar la decoracion de las etiquetas li y que li aparezca al lado del label */
+.li-sec {
+  display: flex;
+  flex-direction: row;
+  width: 350px;
+  text-align: right;
+}
+/* se esta manejando el tamaño del formulario */
+.formulario {
+  height: 500px;
+  width: 500px;
+}
+/* me ayuda a que halla un pequeño espacio entre cada parametro del formulario */
+.caja {
+  margin: 20px auto 40px auto;
+  height: 30px;
+  overflow: hidden;
+  width: 280px;
+  position: relative;
+}
+/* maneja el cuadro de cantidad para que este mas redondo y centrado */
+#cantidad {
+  width: 120px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #cacaca;
+}
+/* esconde un stock dependiendo del wear layer */
+#inv1 {
   display: none;
 }
-@media (min-width: 1800px) and (max-width: 3000px) {
+.icon {
+  height: 31px;
+}
+@media (max-width: 1100px) {
+  .palet {
+    margin-left: 9%;
+  }
+  .label-sec {
+    width: 80%;
+  }
+  .caja {
+    height: auto;
+    overflow: auto;
+    min-width: 150px;
+    position: relative;
+    align-items: center;
+  }
+  .li-sec {
+    display: flex;
+    flex-direction: column;
+    width: 150px;
+    text-align: left;
+  }
+  .formulario {
+    height: auto;
+    width: 100%;
+  }
   .cont {
     display: flex;
-    flex-direction: row;
-    height: 50rem;
+    flex-direction: column;
+    height: 65rem;
+  }
+  .completo {
+    width: 80%;
+    box-shadow: 0px 0px 0px black;
   }
   .presentacion {
-    margin-top: 30px;
-    margin-left: 75px;
-    width: 45rem;
+    height: auto;
+    width: 40%;
   }
   .foto {
-    height: 12rem;
+    display: block;
   }
 }
-@media (max-width: 320px) {
-  .adicional{
-    margin-top: 20px;
-    width: 12rem;
-    height: 6rem;
-  }
-  .cont {
-    display: flex;
-    flex-direction: row;
-    height: 50rem;
-  }
-  .palet{
-    margin-left: 10px;
-  }
+@media (max-width: 500px) {
   .presentacion {
-    margin-top: 10px;
-    margin-left: 10px;
-    width: 230px;
-  }
-  .foto {
-    height: 12rem;
-  }
-}
-@media (max-width: 1120px) {
-  .adicional{
-    margin-top: 20px;
-    width: 15rem;
-    height: 6rem;
-  }
-  .cont {
-    display: flex;
-    flex-direction: row;
-    height: 66rem;
-  }
-  .presentacion {
-    margin-top: 10px;
-    margin-left: 20px;
-    width: 250px;
-  }
-  
-  .quote{
-    margin-left: 99%;
-  }
-  .foto {
-    height: 12rem;
+    height: auto;
+    width: 80%;
   }
 }

@@ -15,7 +15,7 @@ function piso() {
     boxes = 25;
     sq = 734.5;
     document.getElementById("inv1").style.display = "none";
-    document.getElementById("inv3").style.display = "flex";
+    document.getElementById("inv3").style.display = "inline";
 
     if (l < v) {  
       Swal.fire("no units available");
@@ -29,7 +29,7 @@ function piso() {
     boxes = 30;
     sq = 881.4;
     document.getElementById("inv3").style.display = "none";
-    document.getElementById("inv1").style.display = "flex";
+    document.getElementById("inv1").style.display = "inline";
     
     if (s < v) {
       Swal.fire("no units available");

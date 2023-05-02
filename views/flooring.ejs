@@ -12,9 +12,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
   <link rel="stylesheet" href="/style/estilos.css" />
-  <link rel="stylesheet" href="/style/formulario.css" />
   <link rel="stylesheet" href="/style/flooring.css" />
-
   <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.8.0/sweetalert2.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/sweetalert2@9.5.3/dist/sweetalert2.all.min.js">
   <script src="https://unpkg.com/sweetalert2"></script>
@@ -23,26 +21,28 @@
 </head>
 
 <body>
-  <nav class="navbar mb-5">
-    <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
-      <img src="/images/perfil/<%= perf %>" class="navbar-brand cliente" alt="" width="auto" height="70">
-    <ul class="nav justify-content-end me-5">
-      <li class="nav-item">
-        <a class="nav-link bg-light text-secondary" href="/pisos">Floorings</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-secondary" href="/lista">Quoter</a>
-      </li>
-      <li class="nav-item">
-        <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
-      </li>
-    </ul>
-    <div class="mt-2 linea"></div>
-  </nav>
+  <nav class="navbar">
+    <div class="encs">
+      <img src="/images/redes/acemarUS.png" width="auto" height="50">
+      <img src="/images/perfil/<%= perf %>" class="mt-3 mb-4 ms-3" width="50" height="auto">
+    </div>
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <a class="nav-link bg-light text-secondary" href="/pisos">Floorings</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-secondary" href="/lista">Quoter</a>
+    </li>
+    <li class="nav-item">
+      <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
+    </li>
+  </ul>
+  <div class="mt-2 linea"></div>
+</nav>
   <div class="pt-5 ms-auto me-auto mb-5 mt -5 completo">
     <div class="cont">
       <% if (datos) { if(precio){%>
-        <div class="foto">
+        <div class="text-center">
           <img class="presentacion" id="imgproducto" src="/images/flooring/<%=datos.imgpiso%>" />
         </div>
         <div class="formulario me-3 pe-5 mt-5 container">
@@ -60,25 +60,25 @@
             ">
             <%= datos.producto%>
           </h5>
-          <form action="/piso" method="post" id="pisos" class="mt-auto">
+          <form action="/piso" method="post" id="pisos" class="mt-auto mb-5">
             <input type="hidden" id="id" name="id" value="<%= datos.id%>">
             <input type="hidden" id="producto" name="producto" value="<%= datos.producto%>">
-            <input type="hidden" id="imagen" class="imagen" value="<%= datos.imgpiso%>"
-              name="imagen">
+            <input type="hidden" id="imagen" class="imagen" value="<%= datos.imgpiso%>" name="imagen">
             <input type="hidden" id="layer1" name="layer1" value="<%= precio.layer1%>">
             <input type="hidden" id="layer3" name="layer3" value="<%= precio.layer3%>">
             <input type="hidden" id="cod1" name="cod1" class="cod1" value="<%= datos.cod1%>">
             <input type="hidden" id="cod3" name="cod3" class="cod3" value="<%= datos.cod3%>">
             <input type="hidden" id="stock" class="stock" value="<%= datos.inventario%>">
             <input type="hidden" id="stock3" class="stock3" value="<%= datos.inventario3%>">
-            <div class="adicional bg-light border ms-auto me-auto pt-2 ps-3">
-              <h6>Grade: 40% Clear, 40% Semiclear, 20% Character
-                Core: Solid Teakwood</h6>
+            <div class="text-center">
+              <div class="adicional bg-light border ms-auto me-auto pt-2 ps-3">
+                <h6>Grade: 40% Clear, 40% Semiclear, 20% Character
+                  Core: Solid Teakwood</h6>
+              </div>
             </div>
             <li class="li-sec caja">
-              <img src="/images/icons/simbolos pagina web- core.png"
-                style="height: 31px; margin: auto; margin-right: 10px" />
-              <label class="label-sec">Wear Layer</label>
+              <img src="/images/icons/simbolos pagina web- core.png" class="icon" />
+              <label class="label-sec mb-4 mt-3">Wear Layer</label>
               <select required class="form-select form-select-sm selected-line" id="grosor" name="grosor"
                 onchange="piso();" aria-label=".form-select-sm example">
                 <option value="">Select</option>
@@ -87,30 +87,31 @@
               </select>
             </li>
             <li class="li-sec caja">
-              <img src="/images/icons/simbolos pagina web-quantity.png"
-                style="height: 35px; margin: auto; margin-right: 10px" />
-              <label class="label-sec">pallets</label>
+              <img src="/images/icons/simbolos pagina web-quantity.png" class="icon" />
+              <label class="label-sec mt-3">pallets</label>
               <br />
               <input class="input-number" name="cantidad" id="cantidad" type="number" onchange="piso();" value="1"
-                min="1"/>
+                min="1" />
               <br>
             </li>
-            <h6 class="li-sec cajas" id="inv1">stock: <%= datos.inventario%>
-            </h6>
-            <h6 class="li-sec cajas" id="inv3">stock: <%= datos.inventario3%>
-            </h6>
-            <div class="palet bg-light border me-auto pt-2 ps-3" id="palet">
-              <h6>Boxes x Pallet: <span id="box"></span>
-                <br>
-                SQF x Pallet: <span id="sqf"></span>
+            <div class="text-center mb-4">
+              <h6 class="" id="inv1">stock: <%= datos.inventario%>
               </h6>
+              <h6 class="" id="inv3">stock: <%= datos.inventario3%>
+              </h6>
+              <div class=" bg-light border pt-2 ps-3" id="palet">
+                <h6>Boxes x Pallet: <span id="box"></span>
+                  <br>
+                  SQF x Pallet: <span id="sqf"></span>
+                </h6>
+              </div>
+
+              <div class="linea-total"></div>
+              <label class="mt-4 mb-5 total" name="total">Total: </label>
+              <span id="prec" name="prec"></span>
             </div>
-            <div class="linea-total"></div>
-            <label class="label-sec total" name="total">Total: </label>
-            <span id="prec" name="prec"></span>
             <div class="text-center">
-              <input type="submit" value="Add to Quote" id="agregar"
-                class="btn btn-warning agregar" />
+              <input type="submit" value="Add to Quote" id="agregar" class="btn btn-warning agregar" />
             </div>
           </form>
         </div>
@@ -118,8 +119,8 @@
     <% }}%>
   </div>
   <footer class="text-center text-lg-start">
-    <!-- Grid container --> 
-    <div class="border bg-light container p-4">
+    <!-- Grid container -->
+    <div class="border bg-light container p-4 mt-5">
       <!--Grid row-->
       <div class="row">
         <!--Grid column-->

@@ -58,12 +58,9 @@ td {
   text-align: center;
 }
 .ultimo {
-  margin-top: -9%;
-  margin-left: 85%;
-  display: block;
-  width: 15%;
-  text-align: left;
-  font-size: 15px;
+  max-width: 300px; /* ajustar el ancho máximo según tus necesidades */
+  margin-left: 70%;
+  text-align: center;
 }
 .tot {
   height: 1px;
@@ -100,9 +97,7 @@ td {
   display: none;
 }
 
-table {
-  counter-reset: rowNumber + 1;
-}
+
 table tr {
   counter-increment: rowNumber;
 }
@@ -167,5 +162,40 @@ h3{
   .conpacto {
     margin-top: 50px;
     display: flex;
+  }
+}
+@media(max-width: 900px){
+  table {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  thead {
+    display: none;
+  }
+  td, th {
+    text-align: left;
+    padding: 8px;
+  }
+  .ultimo {
+    max-width: 100%;
+    margin-right: 0;
+    margin-left: 50%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    transform: translateX(-50%);
+  }
+}
+@media only screen and (max-width: 600px) {
+  .ultimo {
+    max-width: 100%;
+    margin-right: 0;
+    margin-left: 50%;
+    margin-bottom: 20px;
+    transform: translateX(-50%);
+  }
+  td, th {
+    font-size: 14px;
   }
 }

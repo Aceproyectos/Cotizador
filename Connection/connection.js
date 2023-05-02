@@ -18,13 +18,11 @@ const conexion = mysql.createConnection({
   },
 });
 
-conexion.connect(function (error) {
-  if (error) {
-    console.log("Error en la conexión:", error);
-    throw error;
-  } else {
-    console.log("CONEXIÓN EXITOSA");
-  }
-});
+try {
+  conexion.connect();
+  console.log("CONEXIÓN EXITOSA");
+} catch (error) {
+  console.log("Error en la conexión:", error);
+}
 
 module.exports = conexion;
