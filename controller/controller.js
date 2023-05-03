@@ -582,6 +582,7 @@ controller.inventario = (req, res) => {
 
 controller.actprec = (req, res) => {
   const id = req.body.dd;
+  const idp = req.body.pp;
   const ll = req.body.ll;
   const yy = req.body.yy;
 
@@ -592,6 +593,8 @@ controller.actprec = (req, res) => {
       yy +
       "' WHERE idcliente = '" +
       id +
+      "'AND idpisos='" +
+      idp +
       "'",
     (err) => {
       if (err) {
@@ -764,34 +767,32 @@ controller.client = async (req, res, next) => {
       "SELECT * FROM pisosprec WHERE idcliente = ?",
       [3] // Aquí se debe especificar el idcliente del cliente que se quiere copiar
     );
-    
+
     // 2. Insertar el nuevo cliente en la tabla `cliente`
-    const [result] = await cnn.promise().query(
-      "INSERT INTO cliente SET ?",
-      {
-        mail: email,
-        password: pass,
-        phone: phon,
-        rol: rolex,
-        address: add,
-        postal: pos,
-        state: sta,
-        perfil: img,
-      }
-    );
+    const [result] = await cnn.promise().query("INSERT INTO cliente SET ?", {
+      mail: email,
+      password: pass,
+      phone: phon,
+      rol: rolex,
+      address: add,
+      postal: pos,
+      state: sta,
+      perfil: img,
+    });
 
     // 3. Obtener el `idcliente` del cliente recién insertado
     const clienteId = result.insertId;
     // 4. Insertar una nueva fila en la tabla `pisosprec` con los mismos datos que la fila correspondiente al cliente que se quiere copiar, pero con el `idcliente` del nuevo cliente.
-    await cnn.promise().query(
-      "INSERT INTO pisosprec (idpisos, layer1, layer3, idcliente) SELECT idpisos,layer1, layer3, ? FROM pisosprec WHERE idcliente = 3",
-      [clienteId]
-    );
+    await cnn
+      .promise()
+      .query(
+        "INSERT INTO pisosprec (idpisos, layer1, layer3, idcliente) SELECT idpisos,layer1, layer3, ? FROM pisosprec WHERE idcliente = 3",
+        [clienteId]
+      );
 
     res.redirect("/account");
   });
 };
-
 
 controller.actclient = async (req, res, next) => {
   const password = String(req.body.pass);
