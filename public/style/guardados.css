@@ -57,11 +57,19 @@ td {
   border-bottom: 2px solid #e6e0e0;
   text-align: center;
 }
-.ultimo {
+.cont {
+  display: flex;
+  flex-direction: column;
+}
+.ultimo{
+  display: flex;
+  flex-direction: column;
   max-width: 300px; /* ajustar el ancho máximo según tus necesidades */
   margin-left: 70%;
+  margin-top: 3%;
   text-align: center;
 }
+
 .tot {
   height: 1px;
   width: 200px;
@@ -84,7 +92,6 @@ td {
   color: #fff;
   margin-left: 20px;
 }
-
 .conpacto {
   display: flex;
 }
@@ -96,8 +103,6 @@ td {
 .dataTables_info {
   display: none;
 }
-
-
 table tr {
   counter-increment: rowNumber;
 }
@@ -146,7 +151,6 @@ h3{
   width: 65px;
   height: auto;
 }
-
 .indice{
   display: none;
 }

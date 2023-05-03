@@ -1,7 +1,7 @@
 const fomu = document.querySelector("#tab");
 fomu.addEventListener("submit", async function (e) {
   e.preventDefault();
-  const data = await fetch("https://acemardistributors.com/calcpdf");
+  const data = await fetch("http://localhost:3000/calcpdf");
   const json = await data.json();
 
   const sumaSegundaColumna = json.datos
@@ -156,14 +156,14 @@ fomu.addEventListener("submit", async function (e) {
     alignment: "center",
   };
 
-  await fetch("https://acemardistributors.com/finalizar", {
+  await fetch("http://localhost:3000/finalizar", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(content),
   });
 
-  await fetch("https://acemardistributors.com/base", {
+  await fetch("http://localhost:3000/base", {
     method: "POST",
   });
-  window.location.href = "https://acemardistributors.com/pisos";
+  window.location.href = "http://localhost:3000/pisos";
 });
