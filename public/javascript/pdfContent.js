@@ -18,7 +18,6 @@ fomu.addEventListener("submit", async function (e) {
     style: {
       table: {
         border: "1px solid black",
-        fontSize: 40,
       },
       th: {
         border: "1px solid black",
@@ -45,47 +44,38 @@ fomu.addEventListener("submit", async function (e) {
         [
           {
             text: "Product",
-            style: { fontSize: 13, bold: true },
             margin: [0, 0, 0, 10],
           },
           {
             text: "SKU",
-            style: { fontSize: 13, bold: true },
             margin: [0, 0, 0, 10],
           },
           {
             text: "Top Layer",
-            style: { fontSize: 13, bold: true },
             margin: [15, 0, 0, 10],
           },
           {
             text: "Pallets",
-            style: { fontSize: 13, bold: true },
             margin: [15, 0, 0, 10],
           },
           {
             text: "SQF per Pallet",
-            style: { fontSize: 13, bold: true },
             margin: [15, 0, 0, 10],
           },
           {
             text: "Boxes per pallet",
-            style: { fontSize: 13, bold: true },
             margin: [15, 0, 0, 10],
           },
           {
             text: "SQL per Box",
-            style: { fontSize: 13, bold: true },
             margin: [15, 0, 0, 10],
           },
           {
             text: "Unit Price SQF",
-            style: { fontSize: 13, bold: true },
             margin: [15, 0, 0, 10],
           },
           {
             text: "Total",
-            style: { fontSize: 13, bold: true },
             margin: [15, 0, 0, 10],
           },
         ],
