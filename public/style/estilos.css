@@ -1,3 +1,7 @@
+@font-face {
+  font-family: 'Century Gothic';
+  src: url('fonts/Century/GOTHIC.TTF');
+}
 html {
   min-height: 100%;
   position: relative;
@@ -5,6 +9,7 @@ html {
 body {
   margin: 0;
   margin-bottom: 40px;
+  font-family: 'Century Gothic', sans-serif;
 }
 .linea {
   background-color: #0000002c;

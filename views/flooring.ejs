@@ -72,8 +72,8 @@
             <input type="hidden" id="stock3" class="stock3" value="<%= datos.inventario3%>">
             <div class="text-center">
               <div class="adicional bg-light border ms-auto me-auto pt-2 ps-3">
-                <h6>Grade: 40% Clear, 40% Semiclear, 20% Character
-                  Core: Solid Teakwood</h6>
+                <label style="font-weight: bold;">Grade: 40% Clear, 40% Semiclear, 20% Character
+                  Core: Solid Teakwood</label>
               </div>
             </div>
             <li class="li-sec caja">
@@ -95,20 +95,20 @@
               <br>
             </li>
             <div class="text-center mb-4">
-              <h6 class="" id="inv1">stock: <%= datos.inventario%>
-              </h6>
-              <h6 class="" id="inv3">stock: <%= datos.inventario3%>
-              </h6>
+              <label class="" id="inv1">stock: <%= datos.inventario%>
+              </label>
+              <label class="" id="inv3">stock: <%= datos.inventario3%>
+              </label>
               <div class=" bg-light border pt-2 ps-3" id="palet">
-                <h6>Boxes x Pallet: <span id="box"></span>
+                <label>Boxes x Pallet: <span id="box"></span>
                   <br>
                   SQF x Pallet: <span id="sqf"></span>
-                </h6>
+                </label>
               </div>
 
               <div class="linea-total"></div>
-              <label class="mt-4 mb-5 total" name="total">Total: </label>
-              <span id="prec" name="prec"></span>
+              <label style="font-weight: bold;" class="mt-4 mb-5 total" name="total">Total: </label>
+              <span style="font-weight: bold;" id="prec" name="prec"></span>
             </div>
             <div class="text-center">
               <input type="submit" value="Add to Quote" id="agregar" class="btn btn-warning agregar" />
