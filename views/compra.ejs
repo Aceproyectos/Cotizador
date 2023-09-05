@@ -11,76 +11,138 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/style/estilos.css" />
     <link rel="stylesheet" href="/style/guardados.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
     <title>Compra</title>
 </head>
 
 <body>
-    <nav class="navbar">
-        <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
+    <nav class="navbar">  
+        <img
+          src="/images/redes/acemarUS.png"
+          class="navbar-brand ms-5"
+          alt=""
+          width="auto"
+          height="70"
+        />
         <ul class="nav justify-content-end me-5">
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="/account">Account</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="/productos">Products</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary bg-light" href="/facturas">Invoice</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="/precios">Price</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="/inventario">Inventory</a>
-            </li>
-            <li class="nav-item">
-                <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="/account">Account</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-secondary"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Products
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/doors">Doors</a></li>
+              <li><a class="dropdown-item" href="/productos">Flooring</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary bg-light" href="/facturas">Invoice</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="/precios">Price</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="/inventario"
+              >Inventory</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="/"
+              ><i
+                class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"
+              ></i
+            ></a>
+          </li>
         </ul>
         <div class="mt-2 linea"></div>
-    </nav>
-    <table id="tabla">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Sku</th>
-                <th>Image</th>
-                <th>Top Layer</th>
-                <th>Quantity</th>
-                <th>Subtotal</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% data.forEach(function (data) {%>
-                <tr>
-                    <td>
-                        <%= data.producto%>
-                    </td>
-                    <td>
-                        <%= data.codigo%>-W-UT-RT10
-                    </td>
-
-                    <td><img src="/images/flooring/<%=data.imagen%>" class="puer" alt=""></td>
-                    <td>
-                        <%= data.layer%>mm
-                    </td>
-                    <td>
-                        <%= data.cant%>
-                    </td>
-                    <td>
-                        <%= data.pr%>
-                    </td>
-                </tr>
-                <%})%>
-        </tbody>
+      </nav>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Image</th>
+          <th scope="col">Top Layer</th>
+          <th scope="col">Pallets</th>
+          <th scope="col">SQF per Pallet</th>
+          <th scope="col">Boxes per pallet</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% pisos.forEach(function(pisos){ %>
+        <tr  class="bg-white">
+          <td><%= pisos.producto%></td>
+          <td><img style="width: 60px;" src="/images/flooring/<%= pisos.imgpiso%> " alt=""></td>
+          <td><%= pisos.top_layer%></td>
+          <td><%= pisos.pallets%></td>
+          <td><%= pisos.sqf_per_pallet%></td>
+          <td><%= pisos.boxes_per_pallet%></td>
+          <td><%= pisos.unit_price%></td>
+          <td><%= pisos.total%></td>
+        </tr>
+      </tbody>
+      <% })%>
+      </tbody>
     </table>
-    <div class="ultimo mt-auto">
-        <label>Total:</label>
-        <span id="subtotal">
-            <%= total[0].sum %>
-        </span>
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Image</th>
+          <th scope="col">Frame</th>
+          <th scope="col">Color</th>
+          <th scope="col">Height</th>
+          <th scope="col">width</th>
+          <th scope="col">Finish</th>
+          <th scope="col">Opening</th>
+          <th scope="col">Core</th>
+          <th scope="col">Thickness</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% puertas.forEach(function(puertas){ %>
+        <tr class="bg-white">
+          <td><%= puertas.producto%></td>
+          <td><img style="width: 60px;" src="/images/doors/<%= puertas.directorio%>/<%= puertas.imgpuerta%> " alt=""></td>
+          <td><%= puertas.frame%></td>
+          <td><%= puertas.color%></td>
+          <td><%= puertas.height%></td>
+          <td><%= puertas.width%></td>
+          <td><%= puertas.finish%></td>
+          <td><%= puertas.opening%></td>
+          <td><%= puertas.core%></td>
+          <td><%= puertas.thickness%></td>
+          <td><%= puertas.quantity%></td>
+          <td><%= puertas.unit_price%></td>
+          <td><%= puertas.total%></td>
+        </tr>
+      </tbody>
+      <% })%>
+      </tbody>
+    </table>
 
+    <div class="ultimo mt-auto bg-warning">
+      <label>Total:</label>
+      <span id="subtotal">
+        <%= productos[0].factura_total %>
+      </span>
+  </div>
+    
     <footer class="text-center text-lg-start">
         <!-- Grid container -->
         <div class="border bg-light container p-4">

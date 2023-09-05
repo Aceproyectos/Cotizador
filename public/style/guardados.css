@@ -67,6 +67,8 @@ td {
   max-width: 300px; /* ajustar el ancho máximo según tus necesidades */
   margin-left: 70%;
   margin-top: 3%;
+  font-size: 20px;
+  font-weight: bold;
   text-align: center;
 }
 

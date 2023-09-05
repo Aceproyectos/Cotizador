@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doors</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="javascript/ElimDoors.js"></script>
+    <link rel="stylesheet" href="style/estilos.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <img
+        src="/images/redes/acemarUS.png"
+        class="navbar-brand ms-5"
+        alt=""
+        width="auto"
+        height="70"
+      />
+      <ul class="nav justify-content-end me-5">
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="account">Account</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-secondary bg-light"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Products
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="doors">Doors</a></li>
+            <li><a class="dropdown-item" href="productos">Flooring</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="facturas">Invoice</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="precios">Price</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="inventario">Inventory</a>
+        </li>
+        <li class="nav-item">
+          <a href="/"
+            ><i
+              class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"
+            ></i
+          ></a>
+        </li>
+      </ul>
+      <div class="mt-2 linea"></div>
+    </nav>
+    <form action="/newDoor" method="post" style=" width: 50%; margin-left: auto; margin-right: auto; margin-bottom: 3%;" enctype="multipart/form-data">
+      <div
+        class="bg-light p-5 text-secondary container border rounded-3"
+        id="account"
+      >
+      <div class="text-center fs-1 fw-bold">Create Products</div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-brands fa-product-hunt text-white"></i>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            name="producto"
+            placeholder="Product"
+          />
+        </div>
+
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-image text-white"></i>
+          </div>
+          <input
+            type="file"
+            class="form-control"
+            name="imgproduct"
+            enctype="multipart/form-data"
+          />
+        </div>
+
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-crop-simple text-white"></i>
+          </div>
+          <select name="marco" class="form-select" id="">
+            <option value="">Select Frame</option>
+            <option value="marco-c.jpg">Frame type C</option>
+            <option value="marco-d.jpg">Frame type D</option>
+            <option value="marco-g.jpg">Frame type G</option>
+          </select>
+        </div>
+
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-clipboard-list text-white"></i>
+          </div>
+          <input type="text" class="form-control" placeholder="Finish" name="finish" />
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-hand-holding-dollar text-white"></i>
+          </div>
+          <input type="float" class="form-control" placeholder="Price matte door with frame" name="priceMatCon" />
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-hand-holding-dollar text-white"></i>
+          </div>
+          <input type="float" class="form-control" placeholder="Price matte door without frame" name="priceMatSin" />
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-hand-holding-dollar text-white"></i>
+          </div>
+          <input type="float" class="form-control" placeholder="Price high gloss door with frame" name="priceGlosCon" />
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-hand-holding-dollar text-white"></i>
+          </div>
+          <input type="float" class="form-control" placeholder="Price high gloss door without frame
+          " name="priceGlosSin" />
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-palette text-white"></i>
+          </div>
+          <label><input type="radio" class=" ms-3" name="cbox1" value="on" /> Color</label>
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-list text-white"></i>
+          </div>
+          <label><input type="radio" class=" ms-3" name="cbox2" value="on" /> Finish</label
+            >
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-brands fa-stack-overflow text-white"></i>
+          </div>
+          <label><input type="radio" class=" ms-3" name="cbox3" value="on" /> Kerfs</label
+            >
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-brands fa-creative-commons-sampling-plus text-white"></i>
+          </div>
+          <label><input type="radio" class=" ms-3" name="cbox4" value="on" /> Core</label>
+        </div>
+        <div class="input-group mt-3">
+          <div class="input-group-text bg-warning">
+            <i class="fa-solid fa-door-closed text-white"></i>
+          </div>
+          <label><input type="radio" class=" ms-3" name="cbox5" value="on" /> Venner</label>
+        </div>
+        <button type="submit" class="btn btn-warning mt-3 w-100 text-white">Create</button>
+      </div>
+    </form>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Image</th>
+          <th scope="col">Finish</th>
+          <th scope="col">Matte price with frame</th>
+          <th scope="col">Matte price without frame</th>
+          <th scope="col">High gloss price with frame</th>
+          <th scope="col">High gloss price without frame</th>
+          <th scope="col">Color</th>
+          <th scope="col">Finish</th>
+          <th scope="col">Kerfs</th>
+          <th scope="col">Core</th>
+          <th scope="col">Venener</th>
+          <th scope="col">Update</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% datos.forEach(function(datos){ %>
+          <input type="hidden" class="id" value="<%= datos.id %>">
+        <tr>
+          <td><%= datos.producto%></td>
+          <td>
+            <img
+              src="/images/doors/<%= datos.directorio%>/<%= datos.imgpuerta%>"
+              width="50"
+            />
+          </td>
+          <td><%= datos.finish%></td>
+          <td><%= datos.conmarco%></td>
+          <td><%= datos.sinmarco%></td>
+          <td><%= datos.conhigth%></td>
+          <td><%= datos.sinhight%></td>
+          <td><%= datos.color%></td>
+          <td><%= datos.finish%></td>
+          <td><%= datos.kerfs%></td>
+          <td><%= datos.core%></td>
+          <td><%= datos.veneer%></td>
+          <td>
+            <a href="actuDoor/<%= datos.id %>"
+              ><i class="fa-solid fa-wrench text-secondary ms-3 fs-4 mt-4"></i
+            ></a>
+          </td>
+          <td>
+            <button
+              type="submit"
+              class="ms-2 fs-5 mt-3 bg-white elim"
+              style="border: none"
+            >
+              <i class="fa-solid fa-trash text-secondary"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+      <% })%>
+    </table>
+  </body>
+</html>

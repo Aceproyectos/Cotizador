@@ -1,74 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Inventario</title>
     <script src="javascript/jquery-3.6.1.min.js"></script>
     <script src="javascript/actinv.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="style/estilos.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <nav class="navbar">
-        <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
-        <ul class="nav justify-content-end me-5">
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="account">Account</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="productos">Products</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="facturas">Invoice</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="precios">Price</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary bg-light " href="inventario">Inventory</a>
-            </li>
-            <li class="nav-item">
-                <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
-            </li>
-        </ul>
-        <div class="mt-2 linea"></div>
+      <img
+        src="/images/redes/acemarUS.png"
+        class="navbar-brand ms-5"
+        alt=""
+        width="auto"
+        height="70"
+      />
+      <ul class="nav justify-content-end me-5">
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="account">Account</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-secondary"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Products
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="doors">Doors</a></li>
+            <li><a class="dropdown-item" href="productos">Flooring</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="facturas">Invoice</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="precios">Price</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary bg-light" href="inventario"
+            >Inventory</a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="/"
+            ><i
+              class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"
+            ></i
+          ></a>
+        </li>
+      </ul>
+      <div class="mt-2 linea"></div>
     </nav>
     <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Layer 1.5 mm</th>
-                <th>Layer 3 mm</th>
-                <th>Update</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% datos.forEach(function (datos) {%>
-                <input type="hidden" value="<%= datos.id%>" class="id" id="id" name="id">
-                <tr>
-                    <td>
-                        <%= datos.producto%>
-                    </td>
-                    <td>
-                        <input type="text" value="<%= datos.inventario%>" class="l1" id="l1" name="l1">
-                    </td>
-                    <td>
-                        <input type="text" value="<%= datos.inventario3%>" class="l3" id="l3" name="l3">
-                    </td>
-                    <td>
-                        <button type="submit" class="ms-2 fs-5 mt-3 bg-white act" style="border:none;"><i
-                            class="fa-solid fa-wrench text-secondary"></i></button> 
-                    </td>
-                </tr>
-                <%})%>
-        </tbody>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Layer 1.5 mm</th>
+          <th>Layer 3 mm</th>
+          <th>Update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% datos.forEach(function (datos) {%>
+        <input
+          type="hidden"
+          value="<%= datos.id%>"
+          class="id"
+          id="id"
+          name="id"
+        />
+        <tr>
+          <td><%= datos.producto%></td>
+          <td>
+            <input
+              type="text"
+              value="<%= datos.inventario%>"
+              class="l1"
+              id="l1"
+              name="l1"
+            />
+          </td>
+          <td>
+            <input
+              type="text"
+              value="<%= datos.inventario3%>"
+              class="l3"
+              id="l3"
+              name="l3"
+            />
+          </td>
+          <td>
+            <button
+              type="submit"
+              class="ms-2 fs-5 mt-3 bg-white act"
+              style="border: none"
+            >
+              <i class="fa-solid fa-wrench text-secondary"></i>
+            </button>
+          </td>
+        </tr>
+        <%})%>
+      </tbody>
     </table>
-</body>
-
+  </body>
 </html>

@@ -1,13 +1,4 @@
-var puertas = sessionStorage.getItem("puertas"); //Obtener datos de sessionStorage
-var operacion = "A"; //"A"=agregar; "E"=edtidar
-puertas = JSON.parse(puertas); // Covertir a objeto
-
-if (puertas === null)
-  // Si no existe, creamos un array vacio.
-  puertas = [];
-
-function AgregarPuerta() {
-  // Seleccionamos los datos de los inputs de formulario
+$("#puertas").bind("submit", async function () {
   cantidad = $("#cantidad").val();
   imgmarco = $("#cbxLenguajes").val();
   preciocon = $("#precio").val();
@@ -23,6 +14,7 @@ function AgregarPuerta() {
   codfinish = $("#codfinish").val();
   prechith = $("#chig").val();
   preshith = $("#shig").val();
+  finish = $("#codfinish").val();
 
   let cr, mr, cod, totl;
   if (codfinish == "true") {
@@ -32,6 +24,7 @@ function AgregarPuerta() {
       } else {
         sub = imgmarco * cantidad;
       }
+      finish = "Matt";
     }
     if (finse == "H") {
       if (preciocon == imgmarco) {
@@ -39,6 +32,7 @@ function AgregarPuerta() {
       } else {
         sub = preshith * cantidad;
       }
+      finish = "High gloss"
     }
   } else {
     sub = imgmarco * cantidad;
@@ -50,144 +44,46 @@ function AgregarPuerta() {
   }
   if (imgmarco == preciocon) {
     mr = "-F";
+    fr = "Yes";
   } else {
     mr = " ";
+    fr = "No";
   }
+  if(col == "W1"){
+    color = "White"
+  }
+  else if(col == "G1"){
+    color = "Mocca"
+  }
+  else if(col == "M1"){
+    color = "Gray"
+  }
+
   cod = icod + finse + col + cr + fcod + mr + ven;
-  var datos_cliente = JSON.stringify({
+
+  var datos_cliente = {
+    idpuerta: $("#idpuerta").val(),
     producto: $("#producto").val(),
     codigo: cod,
+    color: color,
     imgpuerta: $("#imgpuerta").val(),
     imgmarco: sub,
+    frame: fr,
     aimgf: $("#marco").val(),
     height: $("#hight").val(),
     width: $("#width").val(),
-    finish: $("#finish").val(),
+    finish: finish,
     opening: $("#opening").val(),
     core: $("#coreshjgjhg").val(),
     thickness: $("#Thickness").val(),
     precio: $("#precio").val(),
     cantidad: $("#cantidad").val(),
+  };
+
+  await fetch("http://acemardistributors.com/prueba", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(datos_cliente),
   });
-
-  puertas.push(datos_cliente); // Guardar datos en el array definido globalmente
-  sessionStorage.setItem("puertas", JSON.stringify(puertas));
-
-  ListarPuertas();
-
-  return Mensaje(1);
-}
-
-function ListarPuertas() {
-  $("#puertas-list").html(
-    "<thead>" +
-      "<tr>" +
-      "<th>  </th>" +
-      "<th> product </th>" +
-      "<th> Code </th>" +
-      "<th> Door </th>" +
-      "<th> Frame </th>" +
-      "<th> Height</th>" +
-      "<th> Width</th>" +
-      "<th> Finish</th>" +
-      "<th> Opening</th>" +
-      "<th> Core</th>" +
-      "<th> Thickness</th>" +
-      "<th> Quantity</th>" +
-      "<th> Subtotal</th>" +
-      "</tr>" +
-      "</thead>" +
-      "<tbody>" +
-      "</tbody>"
-  );
-
-  for (var i in puertas) {
-    var d = JSON.parse(puertas[i]);
-    $("#puertas-list").append(
-      "<tr class='bg-white'>" +
-        "<td>" +
-        "</td>" +
-        "<td>" +
-        d.producto +
-        "</td>" +
-        "<td>" +
-        d.codigo +
-        "</td>" +
-        "<td><img class='puer' src='images/doors/" +
-        d.imgpuerta +
-        "'></td>" +
-        "<td><img class='marc' src='images/doors/marcos/" +
-        d.aimgf +
-        "'></td>" +
-        "<td>" +
-        d.height +
-        "</td>" +
-        "<td>" +
-        d.width +
-        "</td>" +
-        "<td>" +
-        d.finish +
-        "</td>" +
-        "<td>" +
-        d.opening +
-        "</td>" +
-        "<td>" +
-        d.core +
-        "</td>" +
-        "<td>" +
-        d.thickness +
-        "</td>" +
-        "<td>" +
-        d.cantidad +
-        "</td>" +
-        "<td id='precio'>" +
-        d.imgmarco +
-        "</td>" +
-        "<td> <a id='" +
-        i +
-        "' class='btnEliminar' href='lista'><span class='fa-sharp fa-solid fa-trash'> </span> </a> </td>" +
-        "</tr>"
-    );
-  }
-}
-
-if (puertas.length !== 0) {
-  ListarPuertas();
-} else {
-  $("#puertas-list").append("<h2>No tienes ninguna puerta seleccionada</h2>");
-}
-
-function contarpuertas() {
-  var doors = puertas;
-  npuertas = doors.length;
-
-  $("#numeropuertas").append(
-    "<a>Tienes actualmente" +
-      "<br>" +
-      "<span class='badge'>" +
-      npuertas +
-      "</span></a> doors"
-  );
-  return npuertas;
-}
-
-function Eliminar(e) {
-  puertas.splice(e, 1); // Args (posición en el array, numero de items a eliminar)
-  sessionStorage.setItem("puertas", JSON.stringify(puertas));
-}
-
-$(".btnEliminar").bind("click", function () {
-  indice_selecionado = $(this).attr("id"); // "this" contiene el elemento clikeado en el contexto actual
-  Eliminar(indice_selecionado); // Eliminamos el elemento llamando la funcion de eliminar
-  ListarPuertas();
-});
-
-contarpuertas();
-// Esperar el evento de envio del formulario !!
-$("#puertas").bind("submit", function () {
-  debugger;
-  if (operacion == "A") return AgregarPuerta();
-  else {
-    return Editar();
-  }
+  window.location("http://acemardistributors.com/lista")
 });

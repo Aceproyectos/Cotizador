@@ -1,0 +1,321 @@
+.foto {
+  height: 500px;
+  width: 250px;
+  margin-left: 24px;
+  margin-bottom: 5%;
+  margin-top: -4%;
+}
+
+.cerrarlog {
+  font-size: 16px;
+  text-decoration: none;
+  margin-left: 30px;
+}
+
+.presentacion {
+  height: auto;
+  width: 450px;
+  margin-left: 50px;
+}
+
+.formulario {
+  height: 500px;
+  width: 500px;
+}
+
+.cuestionario {
+  margin-top: 10%;
+}
+
+.contenido {
+  display: flex;
+  flex-direction: row;
+  height: 900px;
+}
+.completo {
+  width: 80%;
+  box-shadow: 0px 0px 4px black;
+}
+
+.linea-form {
+  background-color: black;
+  width: 100%;
+  height: 1px;
+}
+
+.linea-total {
+  background-color: #0000002c;
+  width: 100%;
+  height: 1px;
+  margin-top: 70px;
+}
+
+.label-sec {
+  text-transform: capitalize;
+  font-size: 15px;
+  margin-right: 30px;
+  text-align: center;
+  width: 40%;
+}
+
+.li-sec {
+  display: flex;
+  flex-direction: row;
+  width: 350px;
+  text-align: right;
+}
+.caja {
+  margin: 20px auto 40px auto;
+  height: 30px;
+  overflow: hidden;
+  width: 280px;
+  position: relative;
+}
+select {
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  height: 30px;
+  padding: 5px;
+  width: 250px;
+}
+select:focus {
+  outline: none;
+}
+.caja::after {
+  display: table-cell;
+  padding-top: 7px;
+  text-align: center;
+  width: 60px;
+  height: 40px;
+  position: absolute;
+  top: 0;
+  right: 0px;
+  pointer-events: none;
+}
+.selected-line {
+  width: 60%;
+}
+#cantidad {
+  width: 120px;
+  text-align: center;
+  border-radius: 4px;
+  border: 1px solid #cacaca;
+}
+.mrpuert {
+  height: 300px;
+  position: relative;
+  margin-top: 30rem;
+  left: -50%;
+}
+
+.total {
+  margin: 50px 10px 40px 40px;
+  margin-top: 15px;
+}
+
+.input-number-group {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+.input-number-group input[type="number"]::-webkit-inner-spin-button,
+.input-number-group input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.input-number-group .input-group-button {
+  line-height: calc(50px / 2 - 5px);
+}
+
+.input-number-group .input-number {
+  width: 50px;
+  padding: 0 12px;
+  text-align: center;
+  outline: none;
+  display: block;
+  margin: 0;
+}
+
+.input-number-group .input-number,
+.input-number-group .input-number-decrement,
+.input-number-group .input-number-increment {
+  border: 1px solid #cacaca;
+  height: 30px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 0;
+}
+
+.input-number-group .input-number-decrement,
+.input-number-group .input-number-increment {
+  display: inline-block;
+  width: 30px;
+  color: #0a0a0a;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.input-number-group .input-number-decrement {
+  margin-right: 0.3rem;
+}
+
+.input-number-group .input-number-increment {
+  margin-left: 0.3rem;
+}
+
+#sfinsh {
+  display: none;
+}
+
+.center {
+  margin: 0;
+  position: absolute;
+}
+@media (min-width: 2000px) and (max-width: 3000px) {
+  .formulario {
+    height: 500px;
+    width: 700px;
+    margin-top: -3%;
+    padding: 20px;
+    padding-right: 60px;
+  }
+  .foto {
+    height: 550px;
+    width: 300px;
+    margin-left: 100px;
+    margin-bottom: 5%;
+    margin-top: -4%;
+  }
+
+  .presentacion {
+    height: 110%;
+    width: 100%;
+    margin-left: 120px;
+  }
+
+  .mrpuert {
+    position: relative;
+    margin-top: -100%;
+    right: 65%;
+  }
+
+  .label-sec {
+    text-transform: capitalize;
+    font-size: 16px;
+    margin-right: 30px;
+    text-align: center;
+    width: 40%;
+  }
+}
+@media (max-width: 1025px) {
+  .presentacion {
+    height: auto;
+    width: 350px;
+    margin-left: 120px;
+  }
+}
+@media (max-width: 688px) {
+  .foto {
+    position: absolute;
+    top: 70em;
+    width: 500px;
+    height: auto;
+    margin-left: auto;
+    margin-bottom: 5%;
+    margin-top: -4%;
+  }
+  .contenido {
+    display: flex;
+    flex-direction: row;
+    height: 130em;
+  }
+  .mrpuert {
+    position: relative;
+    height: auto;
+    width: 300px;
+    margin-left: 30rem;
+    margin-top: 35rem;
+  } 
+}
+@media (max-width: 540px) {
+  .quoter-ul {
+    display: flex;
+    margin-right: 40%;
+    text-align: center;
+  }
+  .cerrarlog {
+    font-size: 16px;
+    text-decoration: none;
+    margin-left: -60px;
+  }
+  .formulario {
+    height: 500px;
+    width: 500px;
+    margin-top: -3%;
+    margin-left: 0%;
+    padding: 20px;
+    padding-right: 60px;
+  }
+  .foto {
+    position: absolute;
+    top: 70em;
+    height: 500px;
+    width: 250px;
+    margin-left: auto;
+    margin-bottom: 5%;
+    margin-top: -4%;
+  }
+  .contenido {
+    display: flex;
+    flex-direction: row;
+    height: 100em;
+  }
+  .mrpuert {
+    position: relative;
+    top: 45em;
+    height: auto;
+    width: 200px;
+    margin-left: 17rem;
+    margin-bottom: 5%;
+  }
+  .presentacion {
+    height: auto;
+    width: 300px;
+  }
+  .formulario {
+    height: 400px;
+    width: 400px;
+  }
+  .caja {
+    margin: 20px auto 40px auto;
+    height: 30px;
+    overflow: hidden;
+    width: 200px;
+    position: relative;
+  }
+  #cantidad {
+    width: 70px;
+    margin-left: -10px;
+    text-align: center;
+    border-radius: 4px;
+    border: 1px solid #cacaca;
+  }
+}
+@media (max-width: 361px) {
+  .presentacion {
+    height: auto;
+    width: 255px;
+    margin-left: 50px;
+  }
+}

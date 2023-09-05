@@ -1,48 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acemar</title>
+    <script src="/javascript/jquery-3.6.1.min.js"></script>
+    <script src="/javascript/calculoform.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/style/estilos.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Acemar</title>
-  <script src="/javascript/jquery-3.6.1.min.js"></script>
-  <script src="/javascript/calculoform.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-  <link rel="stylesheet" href="/style/estilos.css" />
-</head>
-
-<body>
-  <nav class="navbar">
+  <body>
+    <nav class="navbar">
       <div class="encs">
-        <img src="/images/redes/acemarUS.png" width="auto" height="50">
-        <img src="/images/perfil/<%= perf %>" class="mt-3 mb-4 ms-3" width="50" height="auto">
+        <img src="/images/redes/acemarUS.png" width="auto" height="50" />
+        <img
+          src="/images/perfil/<%= perf %>"
+          class="mt-3 mb-4 ms-3"
+          width="50"
+          height="auto"
+        />
+        <label class="ms-5"><%= user %></label>
       </div>
-    <ul class="nav justify-content-end">
-      <li class="nav-item">
-        <a class="nav-link bg-light text-secondary" href="pisos">Floorings</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-secondary" href="lista">Quoter</a>
-      </li>
-      <li class="nav-item">
-        <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
-      </li>
-    </ul>
-    <div class="mt-2 linea"></div>
-  </nav>
-  <div class="container">
-    <div class="row">
-      <% datos.forEach(function (datos, index) { %>
-        <div class="col-6 col-md-4 col-lg-3 <%= index % 3 === 2 ? 'mr-md-4' : '' %>">
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="index">Doors</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link bg-light text-secondary" href="pisos">Floorings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="lista">Quoter</a>
+        </li>
+        <li class="nav-item">
+          <a href="/"
+            ><i
+              class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"
+            ></i
+          ></a>
+        </li>
+      </ul>
+      <div class="mt-2 linea"></div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <% datos.forEach(function (datos, index) { %>
+        <div
+          class="col-6 col-md-4 col-lg-3 <%= index % 3 === 2 ? 'mr-md-4' : '' %>"
+        >
           <input type="hidden" value="<%= datos.id%>" />
           <section>
             <div class="articulo text-center">
-              <a class="text-decoration-none text-center" href="flooring/<%= datos.id%>">
-                <img class="puerta mx-auto" src="images/flooring/<%=datos.imgpiso%>" />
-                <h4 style="font-size: 18px; color: rgb(107, 105, 105); margin-bottom: 10px" class="nom-prod">
+              <a
+                class="text-decoration-none text-center"
+                href="flooring/<%= datos.id%>"
+              >
+                <img
+                  class="puerta mx-auto"
+                  src="images/flooring/<%=datos.imgpiso%>"
+                />
+                <h4
+                  style="
+                    font-size: 18px;
+                    color: rgb(107, 105, 105);
+                    margin-bottom: 10px;
+                  "
+                  class="nom-prod"
+                >
                   <%= datos.producto%>
                 </h4>
               </a>
@@ -50,62 +84,94 @@
           </section>
         </div>
         <% }) %>
+      </div>
     </div>
-  </div>
 
-  <footer class="text-center text-lg-start">
-    <!-- Grid container -->
-    <div class="border bg-light container p-4">
-      <!--Grid row-->
-      <div class="row">
-        <!--Grid column-->
-        <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-center">
-          <div class="text-center">
-            <div class="row">
-              <h5 class="mt-5"><em>Sites of interest</em></h5>
-              <a href="https://athomefloors.biz/" class="text-decoration-none text-dark mt-1"><em>Colortile</em></a>
-              <a href="https://www.acemar.co/" class="text-decoration-none text-dark mt-1 "><em>Acemar</em></a>
+    <footer class="text-center text-lg-start">
+      <!-- Grid container -->
+      <div class="border bg-light container p-4">
+        <!--Grid row-->
+        <div class="row">
+          <!--Grid column-->
+          <div class="col-lg-6 col-md-12 mb-4 mb-md-0 text-center">
+            <div class="text-center">
+              <div class="row">
+                <h5 class="mt-5"><em>Sites of interest</em></h5>
+                <a
+                  href="https://athomefloors.biz/"
+                  class="text-decoration-none text-dark mt-1"
+                  ><em>Colortile</em></a
+                >
+                <a
+                  href="https://www.acemar.co/"
+                  class="text-decoration-none text-dark mt-1"
+                  ><em>Acemar</em></a
+                >
+              </div>
+            </div>
+            <div class="mt-4">
+              <!--Icono de Facebook-->
+              <a
+                class="btn text-white btn-floating m-1"
+                style="background-color: #000000"
+                href="https://www.facebook.com/people/Acemar-Wood/100076103297662/"
+                role="button"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <!--Icono de Twitter-->
+              <a
+                class="btn text-white btn-floating m-1"
+                style="background-color: #000000"
+                href="https://twitter.com/Acemar1958"
+                role="button"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <!--Icono de Instagram-->
+              <a
+                class="btn text-white btn-floating m-1"
+                style="background-color: #000000"
+                href="https://www.instagram.com/acemarwood/?utm_medium=copy_link"
+                role="button"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <!--Icono de Linkendin-->
+              <a
+                class="btn text-white btn-floating m-1"
+                style="background-color: #000000"
+                href="https://www.linkedin.com/in/triplex-acemar-sas-06323556"
+                role="button"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+              <!--Icono de YouTube-->
+              <a
+                class="btn text-white btn-floating m-1"
+                style="background-color: #000000"
+                href="https://www.youtube.com/channel/UCbMSDNFB8H_g1aHDDE-jcnA?view_as=subscriber"
+                role="button"
+                ><i class="fa-brands fa-youtube"></i
+              ></a>
             </div>
           </div>
-          <div class="mt-4">
-            <!--Icono de Facebook-->
-            <a class="btn text-white btn-floating m-1" style="background-color: #000000;"
-              href="https://www.facebook.com/people/Acemar-Wood/100076103297662/" role="button"><i
-                class="fab fa-facebook-f"></i></a>
-            <!--Icono de Twitter-->
-            <a class="btn text-white btn-floating m-1" style="background-color: #000000;"
-              href="https://twitter.com/Acemar1958" role="button"><i class="fab fa-twitter"></i></a>
-            <!--Icono de Instagram-->
-            <a class="btn text-white btn-floating m-1" style="background-color: #000000;"
-              href="https://www.instagram.com/acemarwood/?utm_medium=copy_link" role="button"><i
-                class="fab fa-instagram"></i></a>
-            <!--Icono de Linkendin-->
-            <a class="btn text-white btn-floating m-1" style="background-color: #000000;"
-              href="https://www.linkedin.com/in/triplex-acemar-sas-06323556" role="button"><i
-                class="fab fa-linkedin-in"></i></a>
-            <!--Icono de YouTube-->
-            <a class="btn text-white btn-floating m-1" style="background-color: #000000;"
-              href="https://www.youtube.com/channel/UCbMSDNFB8H_g1aHDDE-jcnA?view_as=subscriber" role="button"><i
-                class="fa-brands fa-youtube"></i></a>
-          </div>
-        </div>
-        <!--Grid column-->
+          <!--Grid column-->
 
-        <!--Grid column-->
-        <div class="col-lg-6 col-md-12 mb-4 mb-md-0 col-sm-1 col-xs-2">
-          <div class="map-responsive">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3526.17503655854!2d-82.76075328552254!3d27.896601423757517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88c2faeae4eaaaab%3A0xffbbd9ca69894ee9!2s2310%20Tall%20Pines%20Dr%20Suite%20230%2C%20Largo%2C%20FL%2033771%2C%20EE.%20UU.!5e0!3m2!1ses!2sco!4v1663612375888!5m2!1ses!2sco"
-              width="675" height="300px" allowfullscreen="" loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <!--Grid column-->
+          <div class="col-lg-6 col-md-12 mb-4 mb-md-0 col-sm-1 col-xs-2">
+            <div class="map-responsive">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3526.17503655854!2d-82.76075328552254!3d27.896601423757517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88c2faeae4eaaaab%3A0xffbbd9ca69894ee9!2s2310%20Tall%20Pines%20Dr%20Suite%20230%2C%20Largo%2C%20FL%2033771%2C%20EE.%20UU.!5e0!3m2!1ses!2sco!4v1663612375888!5m2!1ses!2sco"
+                width="675"
+                height="300px"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
           </div>
+          <!--Grid column-->
         </div>
-        <!--Grid column-->
+        <!--Grid row-->
       </div>
-      <!--Grid row-->
-    </div>
-    <!-- Grid container -->
-  </footer>
-</body>
-
+      <!-- Grid container -->
+    </footer>
+  </body>
 </html>

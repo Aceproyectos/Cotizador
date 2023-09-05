@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doors</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="/style/estilos.css" />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <img
+        src="/images/redes/acemarUS.png"
+        class="navbar-brand ms-5"
+        alt=""
+        width="auto"
+        height="70"
+      />
+      <ul class="nav justify-content-end me-5">
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="account">Account</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-secondary bg-light"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Products
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="doors">Doors</a></li>
+            <li><a class="dropdown-item" href="productos">Flooring</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="facturas">Invoice</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="precios">Price</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" href="inventario">Inventory</a>
+        </li>
+        <li class="nav-item">
+          <a href="/"
+            ><i
+              class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"
+            ></i
+          ></a>
+        </li>
+      </ul>
+      <div class="mt-2 linea"></div>
+    </nav>
+    <form
+      action="/updateDoor"
+      method="post"
+      style="
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 3%;
+      "
+      enctype="multipart/form-data"
+    >
+      <% datos.forEach(function (datos){ %>
+      <div
+        class="bg-light p-5 text-secondary container border rounded-3"
+        id="account"
+      >
+        <input type="hidden" name="id" value="<%= datos.id%>" />
+        <div class="text-center fs-1 fw-bold">Update Products</div>
+        <label for="">Product</label>
+        <div class="input-group mt-3">
+          <input
+            type="text"
+            class="form-control"
+            name="producto"
+            placeholder="<%= datos.producto %>"
+            value="<%= datos.producto %>"
+          />
+        </div>
+        <label for="">Imagen</label>
+        <div class="input-group mt-3">
+          <input
+            type="file"
+            name="imgproduct"
+            class="form-control"
+            value="<%= datos.imgpuerta %>"
+            enctype="multipart/form-data"
+          />
+        </div>
+        <label for="">marco</label>
+        <div class="input-group mt-3">
+          <select
+            name="marco"
+            class="form-select"
+            value="<%= datos.imgmarco %>"
+          >
+            <option value="<%= datos.imgmarco %>"><%= datos.imgmarco %></option>
+            <option value="marco-c.jpg">Frame type C</option>
+            <option value="marco-d.jpg">Frame type D</option>
+            <option value="marco-g.jpg">Frame type G</option>
+          </select>
+        </div>
+        <label for="">Finish</label>
+        <div class="input-group mt-3">
+          <input
+            type="text"
+            class="form-control"
+            name="finish"
+            value="<%= datos.finish %>"
+          />
+        </div>
+        <label for="">price matte door with frame</label>
+        <div class="input-group mt-3">
+          <input
+            type="float"
+            name="priceMatCon"
+            class="form-control"
+            value=" <%= datos.conmarco %>"
+          />
+        </div>
+        <label for="">Price matte door without frame</label>
+        <div class="input-group mt-3">
+          <input
+            type="float"
+            name="priceMatSin"
+            class="form-control"
+            value=" <%= datos.sinmarco %>"
+          />
+        </div>
+        <label for="">price high gloss door with frame</label>
+        <div class="input-group mt-3">
+          <input
+            type="float"
+            name="priceGlosCon"
+            class="form-control"
+            value="<%= datos.conhigth %>"
+          />
+        </div>
+        <label for="">Price high gloss door without frame</label>
+        <div class="input-group mt-3">
+          <input
+            type="float"
+            name="priceGlosSin"
+            class="form-control"
+            value="<%= datos.sinhight %>"
+          />
+        </div>
+        <label>Color</label>
+        <div class="input-group">
+          <select name="cbox1" class="form-select" id="">
+            <option value="<%= datos.color %>"><%= datos.color %></option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <label>Finish</label>
+        <div class="input-group">
+          <select name="cbox2" class="form-select" value="<%= datos.finish %>">
+            <option value="<%= datos.finish %>"><%= datos.finish %></option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <label>Kerfs</label>
+        <div class="input-group">
+          <select name="cbox3" class="form-select" value="<%= datos.kerfs %>">
+            <option value="<%= datos.kerfs %>"><%= datos.kerfs %></option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <label>Core</label>
+        <div class="input-group">
+          <select name="cbox4" class="form-select" value="<%= datos.core %>">
+            <option value="<%= datos.core %>"><%= datos.core %></option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <label>Veneer</label>
+        <div class="input-group">
+          <select name="cbox5" class="form-select" value="<%= datos.veneer %>">
+            <option value="<%= datos.veneer %>"><%= datos.veneer %></option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <input
+          type="submit"
+          class="btn btn-warning mt-3 w-100 text-white"
+          value="Update"
+        />
+      </div>
+      <% }) %>
+    </form>
+  </body>
+</html>

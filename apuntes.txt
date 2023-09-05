@@ -1,0 +1,136 @@
+const fomu = document.querySelector("#tab");
+
+fomu.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  // Obtener todas las filas de la tabla
+  const tabla = document.getElementById("tabla");
+  const filas = tabla.querySelectorAll("tbody tr");
+
+  const tablaPuertas = document.getElementById("tablaPuertas");
+  const puertas = tablaPuertas.querySelectorAll("tbody tr");
+
+  console.log(tablaPuertas);
+
+  // Crear un array para almacenar los datos de la tabla
+
+  const tablaData = [
+    [
+      { text: "Product", margin: [0, 0, 0, 10] },
+      { text: "SKU", margin: [0, 0, 0, 10] },
+      { text: "Top Layer", margin: [15, 0, 0, 10] },
+      { text: "Pallets", margin: [15, 0, 0, 10] },
+      { text: "SQF per Pallet", margin: [15, 0, 0, 10] },
+      { text: "Boxes per pallet", margin: [15, 0, 0, 10] },
+      { text: "SQL per Box", margin: [15, 0, 0, 10] },
+      { text: "Unit Price SQF", margin: [15, 0, 0, 10] },
+      { text: "Total", margin: [15, 0, 0, 10] },
+    ],
+  ];
+
+  const PuertasData = [
+    [
+      { text: "Product" },
+      { text: "Height" },
+      { text: "Width" },
+      { text: "Finish" },
+      { text: "Opening" },
+      { text: "Core" },
+      { text: "Thickness" },
+      { text: "Quantity" },
+      { text: "Unit Price SQF" },
+      { text: "Subtotal" },
+    ],
+  ];
+
+  // Recorrer las filas y obtener los datos de cada celda
+  filas.forEach((fila) => {
+    const celdas = fila.querySelectorAll("td");
+
+    // Crear un array para almacenar los datos de la fila sin las posiciones 0 y 3
+    const rowData = Array.from(celdas)
+      .map((celda, index) => {
+        if (index !== 0 && index !== 3 && index !== 11) {
+          return {
+            text: celda.textContent.trim(),
+          };
+        }
+      })
+      .filter(Boolean); // Filtrar para eliminar elementos nulos/undefined
+
+    tablaData.push(rowData);
+  });
+
+  puertas.forEach((puerta) => {
+    const celdas = puerta.querySelectorAll("td");
+
+    // Crear un array para almacenar los datos de la fila sin las posiciones 0 y 3
+    const rowData = Array.from(celdas)
+      .map((celda, index) => {
+        if (index !== 0 && index !== 3 && index !== 2 && index !== 13) {
+          return {
+            text: celda.textContent.trim(),
+          };
+        }
+      })
+      .filter(Boolean); // Filtrar para eliminar elementos nulos/undefined
+
+    PuertasData.push(rowData);
+  });
+
+  // Luego, construye el contenido para la generación del PDF
+  const content = {
+    defaultStyle: {
+      pageOrientation: "landscape",
+    },
+    style: {
+      table: {
+        border: "1px solid black",
+      },
+      th: {
+        border: "1px solid black",
+      },
+      td: {
+        border: "1px solid black",
+      },
+    },
+    style: "tableExample",
+    table: {
+      headerRows: 1,
+      widths: ["*", "*", "*", "*", "*", "*", "*", "*", "*"],
+      body: tablaData,
+    },
+    layout: "lightHorizontalLines",
+    alignment: "center",
+    // ... otras propiedades del contenido aquí
+  };
+  const contentpuert = {  
+    table: {
+      headerRows: 1,
+      widths: [78, 78, 78, 78, 78, 78, 78, 78, 78, 78],
+      body: PuertasData,
+    },
+    layout: "lightHorizontalLines",
+    alignment: "center",
+    // ... otras propiedades del contenido aquí
+  };
+
+  const combinedContent = {
+    tablaContent: content,
+    puertasContent: contentpuert,
+  };
+
+  // Envía los datos al servidor para generar el PDF
+  await fetch("http://localhost:3000/finalizar", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(combinedContent),
+  });
+  
+  await fetch("http://localhost:3000/base", {
+    method: "POST",
+  });
+
+  // Redirige después de generar el PDF
+  window.location.href = "http://localhost:3000/pisos";
+});
