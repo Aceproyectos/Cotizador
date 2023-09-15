@@ -26,7 +26,7 @@ function piso() {
     }
   } else {
     price = layer1 * valor;
-    boxes = 30;
+    boxes = 25;
     sq = 881.4;
     document.getElementById("inv3").style.display = "none";
     document.getElementById("inv1").style.display = "inline";

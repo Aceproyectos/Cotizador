@@ -80,10 +80,10 @@ $("#puertas").bind("submit", async function () {
     cantidad: $("#cantidad").val(),
   };
 
-  await fetch("http://acemardistributors.com/prueba", {
+  await fetch("https://acemardistributors.com/prueba", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(datos_cliente),
   });
-  window.location("http://acemardistributors.com/lista")
+  window.location("https://acemardistributors.com:3000/lista")
 });

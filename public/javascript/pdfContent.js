@@ -1,7 +1,44 @@
 const fomu = document.querySelector("#tab");
+const finishButton = document.querySelector("#finishButton");
 
-fomu.addEventListener("submit", async function (e) {
-  e.preventDefault();
+$(document).ready(function () {
+  $(".fin").on("click", function () {
+    Swal.fire({
+      title: "Payment information",
+      html:
+        '<label for="github-username">Payment</label>' +
+        '<select id="payment-method" name="payment-method" class="swal2-select method-payment">' +
+        '<option value="paypal">Cash in Advance</option>' +
+        '<option value="credit-card">Credit Card</option>' +
+        '<option value="bank-transfer">Check</option>' +
+        '<option value="bank-transfer">Wine</option>' +
+        "</select>" +
+        '<label for="payment-method">Invoice to</label>' +
+        '<input id="invoice" name="invoice" class="swal2-input invoice" placeholder="Enter Invoice To" type="number" step="0.01">' +
+        "<label>Ship to</label>" +
+        '<input id="shipping-price" name="shipping-price" class="swal2-input ship" placeholder="Enter shipping price" type="number" step="0.01">'+
+        '<label class="swal2-input ship">Terms</label>'+
+        '<input id="shipping-price" name="terms" class="swal2-input terms" placeholder="Terms of payment" type="text">',
+      showCancelButton: true,
+      confirmButtonText: "Finish",
+      showLoaderOnConfirm: true,
+      allowOutsideClick: () => !Swal.isLoading(),
+      customClass: {
+        confirmButton: "bg-warning", // Aquí estableces la clase personalizada
+      },
+      preConfirm: () => {
+        const paymentMethod = document.querySelector('select[name="payment-method"]').value;
+        const invoice = document.querySelector('input[name="invoice"]').value;
+        const shippingprice = document.querySelector('input[name="shipping-price"]').value;
+        const terms = document.querySelector('input[name="terms"]').value;
+
+        handleFormSubmit(paymentMethod, invoice, shippingprice, terms);
+      },
+    })
+  });
+});
+
+async function handleFormSubmit(paymentMethod, invoice, shippingprice, terms) {
   let hasPisosData = false;
   let hasPuertasData = false;
   let contentPisos; // Declarar contentPisos
@@ -13,14 +50,14 @@ fomu.addEventListener("submit", async function (e) {
   if (tabla) {
     const tablaData = [
       [
-        { text: "Product",style: "tablaheader"},
-        { text: "Top Layer",style: "tablaheader"},
-        { text: "Pallets",style: "tablaheader"},
-        { text: "SQF per Pallet",style: "tablaheader"},
-        { text: "Boxes per Pallet",style: "tablaheader"},
-        { text: "SQL per Box",style: "tablaheader"},
-        { text: "Unit Price SQF",style: "tablaheader"},
-        { text: "Total",style: "tablaheader"},
+        { text: "Product", style: "tablaheader" },
+        { text: "Top Layer", style: "tablaheader" },
+        { text: "Pallets", style: "tablaheader" },
+        { text: "SQF per Pallet", style: "tablaheader" },
+        { text: "Boxes per Pallet", style: "tablaheader" },
+        { text: "SQL per Box", style: "tablaheader" },
+        { text: "Unit Price SQF", style: "tablaheader" },
+        { text: "Total", style: "tablaheader" },
       ],
     ];
 
@@ -109,54 +146,68 @@ fomu.addEventListener("submit", async function (e) {
   }
 
   if (hasPisosData && hasPuertasData) {
-    const combinedContent = {
-      tablaContent: contentPisos,
-      puertasContent: contentPuertas,
+    const data = {
+      paymentData: {
+        paymentMethod: paymentMethod,
+        invoice: invoice,
+        shippingprice: shippingprice,
+        terms: terms,
+      },
+      combinedContent : {
+        tablaContent: contentPisos,
+        puertasContent: contentPuertas,
+      }
     };
-    console.log(
-      "🚀 ~ file: pdfContent.js:140 ~ combinedContent:",
-      combinedContent
-    );
-    await fetch("http://acemardistributors.com/finalizar", {
+    await fetch("https://acemardistributors.com/finalizar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(combinedContent),
+      body: JSON.stringify(data),
     });
   } else if (hasPisosData) {
-    combinedContent = {
-      tablaContent: contentPisos,
+    const data = {
+      paymentData: {
+        paymentMethod: paymentMethod,
+        invoice: invoice,
+        shippingprice: shippingprice,
+        terms: terms,
+      },
+      combinedContent : {
+        tablaContent: contentPisos,
+        puertasContent: contentPuertas,
+      }
     };
-    console.log(
-      "🚀 ~ file: pdfContent.js:149 ~ combinedContent:",
-      combinedContent
-    );
     try {
-      await fetch("http://acemardistributors.com/finalizar", {
+      await fetch("https://acemardistributors.com/finalizar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(combinedContent),
+        body: JSON.stringify(data),
       });
     } catch (error) {
       console.log(error);
     }
   } else if (hasPuertasData) {
-    combinedContent = {
-      puertasContent: contentPuertas,
+    const data = {
+      paymentData: {
+        paymentMethod: paymentMethod,
+        invoice: invoice,
+        shippingprice: shippingprice,
+        terms: terms,
+      },
+      combinedContent : {
+        tablaContent: contentPisos,
+        puertasContent: contentPuertas,
+      }
     };
-    console.log(
-      "🚀 ~ file: pdfContent.js:157 ~ combinedContent:",
-      combinedContent
-    );
-    await fetch("http://acemardistributors.com/finalizar", {
+    await fetch("https://acemardistributors.com/finalizar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(combinedContent),
+      body: JSON.stringify(data),
     });
   }
 
-  await fetch("http://acemardistributors.com/base", {
+  await fetch("https://acemardistributors.com/base", {
     method: "POST",
   });
   // Redirige después de generar el PDF
-  window.location.href = "http://acemardistributors.com/pisos";
-});
+  window.location.href = "https://acemardistributors.com/pisos";
+}

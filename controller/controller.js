@@ -607,21 +607,43 @@ controller.elimpro = (req, res) => {
 };
 
 controller.finalizar = async (req, res) => {
-  const doc = req.session.docu;
-  const cor = req.session.cor;
   const user = req.session.user;
   const perf = req.session.per;
-  const fle = req.session.flete;
-  const con = req.session.condiciones;
-  const combinedContent = req.body; // Recibe el objeto JSON combinado
-  // Descompone el objeto en los contenidos individuales de los PDFs
-  const tablaContent = combinedContent.tablaContent;
-  const puertasContent = combinedContent.puertasContent;
+  const doc = req.session.docu;
+
+  const data = req.body.paymentData; // Obtiene los datos de pago
+  const method = data.paymentMethod;
+  const invoice = parseInt(data.invoice);
+  const shipping = parseInt(data.shippingprice);
+  const terms = data.terms;
+  const combinedContent = req.body.combinedContent; // Obtiene los contenidos combinados
+  const tablaContent = combinedContent.tablaContent; // Obtiene el contenido de la tabla
+  const puertasContent = combinedContent.puertasContent; // Obtiene el contenido de las puertas
 
   let totalTabla = 0.0;
   let totalPuertas = 0.0;
 
-  // 2. Calcular el total de la tabla sin forEach
+  async function getCustomers() {
+    let phone, address, postal, state;
+    if (!doc) {
+      throw new Error("El valor de 'doc' no está definido.");
+    }
+
+    const result = await cnn
+      .promise()
+      .query("SELECT * FROM cliente WHERE id=?", [doc]);
+
+    phone = result[0][0].phone;
+    address = result[0][0].address;
+    postal = result[0][0].postal;
+    state = result[0][0].state;
+
+    return { phone, address, postal, state };
+  }
+
+  const phone = await getCustomers();
+  console.log(phone.phone);
+
   if (tablaContent) {
     for (
       let rowIndex = 1;
@@ -653,8 +675,9 @@ controller.finalizar = async (req, res) => {
       }
     }
   }
-
-  let total = totalTabla + totalPuertas + fle; // Esto es una cadena, no un número
+  total = totalTabla + totalPuertas;
+  let rendtotal = Math.round(total);
+  let suma = rendtotal + shipping + invoice;
   const opciones = {
     style: "decimal",
     useGrouping: true,
@@ -662,7 +685,19 @@ controller.finalizar = async (req, res) => {
     maximumFractionDigits: 2,
   };
 
-  const numeroFormateado = total.toLocaleString("en", {
+  const numeroFormateado = suma.toLocaleString("en", {
+    style: "currency",
+    currency: "USD",
+  });
+  const subtotal = rendtotal.toLocaleString("en", {
+    style: "currency",
+    currency: "USD",
+  });
+  const impueto = shipping.toLocaleString("en", {
+    style: "currency",
+    currency: "USD",
+  });
+  const envio = invoice.toLocaleString("en", {
     style: "currency",
     currency: "USD",
   });
@@ -704,11 +739,11 @@ controller.finalizar = async (req, res) => {
         image: imagenBase64,
         fit: [60, 60],
         ratio: true,
-        absolutePosition: { x: 700, y: 20 },
+        absolutePosition: { x: 600, y: 20 },
       },
       {
         text: user,
-        absolutePosition: { x: 800, y: 20 },
+        absolutePosition: { x: 700, y: 20 },
         style: "usuario",
       },
       {
@@ -717,14 +752,31 @@ controller.finalizar = async (req, res) => {
         fontSize: 20,
         alignment: "center",
       },
-    ],
-    footer: [
-      { text: "Phone: 727 584 3711 - sales@acemar.us", style: "footer1" },
       {
-        text: "2310 Tall Pines Drive - Suite 230, Largo Florida",
-        style: "footer2",
+        table: {
+          body: [
+            ['Phone', phone.phone],
+            ['Address', phone.address],
+            ['Postal', phone.postal],
+            ['State', phone.state],
+          ]
+        },
+        layout: 'noBorders',
+        absolutePosition: { x: 800, y: 10 },
       },
     ],
+    footer: function (currentPage, pageCount) {
+      return [
+        {
+          text: "Phone: 727 584 3711 - cfo@acemar.us",
+          style: "footer1",
+        },
+        {
+          text: "2310 Tall Pines Drive - Suite 230, Largo Florida",
+          style: "footer2",
+        },
+      ];
+    },
 
     styles: {
       footer1: {
@@ -786,11 +838,15 @@ controller.finalizar = async (req, res) => {
       body: [
         [
           { text: "Subtotal:", fontSize: 14 },
-          { text: numeroFormateado, alignment: "right", fontSize: 14 },
+          { text: subtotal, alignment: "right", fontSize: 14 },
         ],
         [
           { text: "Shipping:", fontSize: 14 },
-          { text: fle, fontSize: 14, alignment: "right" },
+          { text: impueto, fontSize: 14, alignment: "right" },
+        ],
+        [
+          { text: "Invoice:", fontSize: 14 },
+          { text: envio, fontSize: 14, alignment: "right" },
         ],
         [
           {
@@ -807,16 +863,23 @@ controller.finalizar = async (req, res) => {
             fillColor: "#FFD700",
           },
         ],
+        [
+          { 
+            text: "Method:", 
+            fontSize: 14, 
+            margin: [0, 20], // Margen superior e inferior de 10 unidades
+          },
+          { 
+            text: method, 
+            alignment: "right", 
+            fontSize: 14,
+            margin: [0, 20], // Margen superior e inferior de 10 unidades
+          },
+        ],
       ],
     },
-    margin: [700, 10, 60, 0], // Ajusta el margen superior para separar el precio de las tablas
+    margin: [700, 20, 60, 0], // Ajusta el margen superior para separar el precio de las tablas
   });
-
-  docDefinition.content.push({
-    text: "Tus condiciones de pago aquí",
-    style: "yellowBackgroundStyle",
-  });
-
   // Agrega el texto "Terms of Payment:" con el estilo de fondo amarillo
   docDefinition.content.push({
     canvas: [
@@ -829,42 +892,48 @@ controller.finalizar = async (req, res) => {
         color: "#FFF8AD", // Color de fondo amarillo
       },
     ],
-    margin: [30, -40, 0, 0], // Margen superior para separar el cuadro del texto
+    margin: [30, -130, 0, 30], // Margen superior para separar el cuadro del texto
   });
 
   // Luego, agrega el texto encima del cuadro
   docDefinition.content.push({
-    text: "Terms of Payment: " + con + "",
+    text: "Terms: " + terms + "",
     zIndex: 1, // Asegura que el texto esté encima del cuadro
-    margin: [50, -60, 0, 0],
+    margin: [50, -90, 0, 30],
   });
 
-  docDefinition.content.push({
-    columns: [
-      {
-        width: "auto",
-        text: "Account: Acemar Wood Products",
-        margin: [80, 70, 0, 0],
-        background: "#000000",
-        color: "white",
-      },
-      {
-        width: "auto",
-        text: "Account Number: 785556",
-        margin: [80, 70, 0, 0],
-        background: "#000000",
-        color: "white",
-      },
-      {
-        // fixed width
-        width: "auto",
-        text: "Rounting Number: 02542",
-        margin: [80, 70, 0, 0],
-        background: "#000000",
-        color: "white",
-      },
-    ],
-  });
+  docDefinition.content.push(
+    {
+      columns: [
+        {
+          width: "auto",
+          text: "Account: Acemar Wood Products",
+          margin: [80, 70, 0, 0],
+          background: "#000000",
+          color: "white",
+        },
+        {
+          width: "auto",
+          text: "Account Number: 785556",
+          margin: [80, 70, 0, 0],
+          background: "#000000",
+          color: "white",
+        },
+        {
+          // fixed width
+          width: "auto",
+          text: "Rounting Number: 02542",
+          margin: [80, 70, 0, 0],
+          background: "#000000",
+          color: "white",
+        },
+      ],
+    },
+    {
+      text: "The images are for reference only. Due to the natural characteristics of wood, we cannot guarantee that the shades and grains will be uniform.",
+      style: "footer2",
+    }
+  );
 
   const pdfDoc = printer.createPdfKitDocument(docDefinition);
   pdfDoc.pipe(fs.createWriteStream("./pdfs/pdfTest.pdf"));
@@ -900,6 +969,7 @@ controller.finalizar = async (req, res) => {
   });
   res.redirect("/pisos");
 };
+
 controller.calcpdf = (req, res) => {
   const doc = req.session.docu;
   var sql =
@@ -1278,15 +1348,6 @@ controller.validarlogin = async (req, res, next) => {
     "SELECT * FROM cliente WHERE mail=?",
     [usu],
     async (err, results) => {
-      if (
-        results.length == 0 ||
-        !(await bcrypt.compareSync(con, results[0].password))
-      ) {
-        console.log("😁usuario correcto");
-      } else {
-        console.log("😂usuario incorrecto");
-      }
-
       if (err) {
         next(new Error("Error de consulta login", err));
       }
@@ -1298,6 +1359,7 @@ controller.validarlogin = async (req, res, next) => {
           const doc = (req.session.docu = results[0].id);
           const cor = (req.session.cor = results[0].mail);
           const per = (req.session.per = results[0].perfil);
+          const user = (req.session.user = results[0].nombre);
           let rol = results[0].rol;
           switch (rol) {
             case "admin":
@@ -1348,6 +1410,8 @@ controller.client = async (req, res, next) => {
     const add = req.body.address;
     const pos = req.body.postal;
     const sta = req.body.state;
+    const fle = req.body.flete;
+    const cond = req.body.condiciones;
     const cli = 3;
 
     // 1. Obtener los datos del cliente que se quiere copiar
@@ -1367,6 +1431,8 @@ controller.client = async (req, res, next) => {
       postal: pos,
       state: sta,
       perfil: img,
+      flete: fle,
+      condiciones: cond,
     });
     // 3. Obtener el `idcliente` del cliente recién insertado
     const clienteId = result.insertId;
@@ -1383,12 +1449,12 @@ controller.client = async (req, res, next) => {
 };
 
 controller.actclient = async (req, res, next) => {
-  const password = String(req.body.pass);
-  const pass = await bcrypt.hash(password, 8);
-  uploada.single("image")(req, res, (err) => {
+  uploada.single("image")(req, res, async (err) => {
     if (err) {
       throw err;
     }
+    const password = String(req.body.pass);
+    const pass = await bcrypt.hashSync(password, 8);
     const id = req.body.id;
     const email = req.body.email;
     const name = req.body.name;
@@ -1559,7 +1625,9 @@ controller.lista = async (req, res, next) => {
   const per = req.session.per;
   const use = req.session.user;
   var pisosQuery =
-    "SELECT pi.producto, pi.id AS pisos, p.id, p.image, p.sku, p.total, p.unit_price, dp.top_layer, dp.pallets, dp.sqf_per_pallet, dp.boxes_per_pallet, (SELECT ROUND(SUM(total), 2) FROM productos WHERE id_cliente = 35 AND id_enc = 1) AS total_sum FROM productos p INNER JOIN detalles_pisos dp ON (p.id = dp.id) INNER JOIN pisos pi ON (dp.product_id = pi.id) WHERE p.id_cliente = '" +
+    "SELECT pi.producto, pi.id AS pisos, p.id, p.image, p.sku, p.total, p.unit_price, dp.top_layer, dp.pallets, dp.sqf_per_pallet, dp.boxes_per_pallet, (SELECT ROUND(SUM(total), 2) FROM productos WHERE id_cliente = '" +
+    doc +
+    "' AND id_enc = 1) AS total_sum FROM productos p INNER JOIN detalles_pisos dp ON p.id = dp.id INNER JOIN pisos pi ON dp.product_id = pi.id WHERE p.id_cliente = '" +
     doc +
     "' AND p.id_enc = 1;";
 
