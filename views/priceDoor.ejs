@@ -2,11 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inventario</title>
-    <script src="javascript/jquery-3.6.1.min.js"></script>
-    <script src="javascript/actinv.js"></script>
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="javascript/priceDoor.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -24,7 +24,6 @@
     ></script>
     <link rel="stylesheet" href="style/estilos.css" />
   </head>
-
   <body>
     <nav class="navbar">
       <img
@@ -36,7 +35,7 @@
       />
       <ul class="nav justify-content-end me-5">
         <li class="nav-item">
-          <a class="nav-link text-secondary" href="account">Account</a>
+          <a class="nav-link text-secondary bg-light" href="account">Account</a>
         </li>
         <li class="nav-item dropdown">
           <a
@@ -70,9 +69,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary bg-light" href="inventario"
-            >Inventory</a
-          >
+          <a class="nav-link text-secondary" href="inventario">Inventory</a>
         </li>
         <li class="nav-item">
           <a href="/"
@@ -84,55 +81,45 @@
       </ul>
       <div class="mt-2 linea"></div>
     </nav>
-    <table class="table table-hover">
+    <table class="table">
       <thead>
         <tr>
-          <th>Product</th>
-          <th>Layer 1.5 mm</th>
-          <th>Layer 3 mm</th>
+          <th>Producto</th>
+          <th>Matte price with frame</th>
+          <th>Matte price without frame</th>
+          <th>High gloss price with frame</th>
+          <th>High gloss price without frame</th>
           <th>Update</th>
         </tr>
       </thead>
       <tbody>
-        <% datos.forEach(function (datos) {%>
-        <input
-          type="hidden"
-          value="<%= datos.id%>"
-          class="id"
-          id="id"
-          name="id"
-        />
+        <% datos.forEach(function(datos){ %>
+        <input type="hidden" value="<%= datos.id%>" class="id" />
         <tr>
           <td><%= datos.producto%></td>
           <td>
-            <input
-              type="text"
-              value="<%= datos.inventario%>"
-              class="l1"
-              id="l1"
-              name="l1"
-            />
+            <input type="text" value="<%= datos.conmarco%>" class="l1" />
           </td>
           <td>
-            <input
-              type="text"
-              value="<%= datos.inventario3%>"
-              class="l3"
-              id="l3"
-              name="l3"
-            />
+            <input type="text" value="<%= datos.sinmarco%>" class="l2" />
+          </td>
+          <td>
+            <input type="text" value="<%= datos.conhigth%>" class="l3" />
+          </td>
+          <td>
+            <input type="text" value="<%= datos.sinhight%>" class="l4" />
           </td>
           <td>
             <button
               type="submit"
-              class="ms-2 fs-5 mt-3 bg-white act"
+              class="ms-3 fs-5 bg-white actu"
               style="border: none"
             >
               <i class="fa-solid fa-wrench text-secondary"></i>
             </button>
           </td>
         </tr>
-        <%})%>
+        <% })%>
       </tbody>
     </table>
   </body>

@@ -16,27 +16,64 @@
 </head>
 
 <body>
-    <nav class="navbar">
-        <img src="/images/redes/acemarUS.png" class="navbar-brand ms-5" alt="" width="auto" height="70">
+    <nav class="navbar">  
+        <img
+          src="/images/redes/acemarUS.png"
+          class="navbar-brand ms-5"
+          alt=""
+          width="auto"
+          height="70"
+        />
         <ul class="nav justify-content-end me-5">
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="/account">Account</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary " href="/facturas">Invoice</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary bg-light" href="/precios">Price</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-secondary" href="/inventario">Inventory</a>
-            </li>
-            <li class="nav-item">
-                <a href="/"><i class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"></i></a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="/account">Account</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-secondary"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Products
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/doors">Doors</a></li>
+              <li><a class="dropdown-item" href="/productos">Flooring</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="/facturas">Invoice</a>
+          </li>
+          <li class="nav-item dropdown bg-light">
+            <a
+              class="nav-link dropdown-toggle text-secondary"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Price
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="/priceDoor">Doors</a></li>
+              <li><a class="dropdown-item" href="/precios">Flooring</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-secondary" href="/inventario"
+              >Inventory</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="/"
+              ><i
+                class="fa-solid fa-arrow-right-from-bracket mt-3 ms-3 text-secondary fs-5"
+              ></i
+            ></a>
+          </li>
         </ul>
         <div class="mt-2 linea"></div>
-    </nav>
+      </nav>
     <table class="table table-hover">
         <thead>
             <tr>

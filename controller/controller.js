@@ -259,10 +259,6 @@ controller.updateDoor = (req, res) => {
       const producto = req.body.producto;
       const marco = req.body.marco;
       const finish = req.body.finish;
-      const priceMatCon = req.body.priceMatCon;
-      const priceMatSin = req.body.priceMatSin;
-      const priceGlosCon = req.body.priceGlosCon;
-      const priceGlosSin = req.body.priceGlosSin;
       const id = req.body.id;
 
       const cbox1 = req.body.cbox1;
@@ -284,14 +280,6 @@ controller.updateDoor = (req, res) => {
             marco +
             "',finish= '" +
             finish +
-            "',conmarco= '" +
-            priceMatCon +
-            "',sinmarco= '" +
-            priceMatSin +
-            "',conhigth= '" +
-            priceGlosCon +
-            "',sinhight= '" +
-            priceGlosSin +
             "' WHERE id = '" +
             id +
             "'",
@@ -328,14 +316,6 @@ controller.updateDoor = (req, res) => {
             marco +
             "',finish= '" +
             finish +
-            "',conmarco= '" +
-            priceMatCon +
-            "',sinmarco= '" +
-            priceMatSin +
-            "',conhigth= '" +
-            priceGlosCon +
-            "',sinhight= '" +
-            priceGlosSin +
             "' WHERE id = '" +
             id +
             "'",
@@ -380,6 +360,35 @@ controller.elimDoors = (req, res) => {
     }
   });
 };
+controller.pricedoor = (req, res) => {
+  cnn.query("SELECT * FROM puertas", (err, resu) => {
+    if (err) {
+      throw err;
+    } else {
+      res.render("priceDoor", { datos: resu });
+    }
+  });
+};
+controller.pricedoors = (req, res) => {
+  const id = req.body.dd;
+  const conmarco = req.body.ll;
+  const sinmarco = req.body.gg;
+  const conhigth = req.body.hh;
+  const sinhigth = req.body.jj;
+
+  cnn.query(
+    "UPDATE puertas SET conmarco=?,sinmarco=?,conhigth=?,sinhight=? WHERE id = ?",
+    [conmarco, sinmarco, conhigth, sinhigth, id],
+    (err) => {
+      if (err) {
+        throw err;
+      } else {
+        res.redirect("/pricedoor");
+      }
+    }
+  );
+};
+
 controller.door = (req, res) => {
   cnn.query(
     "SELECT * FROM puertas INNER JOIN codigo ON(puertas.id = codigo.id)",
@@ -503,7 +512,19 @@ controller.base = async (req, res) => {
             console.log("si esta actualizando el factura");
 
             cnn.query(
-              "UPDATE factura SET id_encabezado = '" + rept[0].id_factura + "', total = '" + numeroFormateado + "', subtotal = '" + subtotal + "', impuesto = '" + impuesto + "', envio = '" + envio + "' WHERE id_factura = '" + rept[0].id_factura + "'"
+              "UPDATE factura SET id_encabezado = '" +
+                rept[0].id_factura +
+                "', total = '" +
+                numeroFormateado +
+                "', subtotal = '" +
+                subtotal +
+                "', impuesto = '" +
+                impuesto +
+                "', envio = '" +
+                envio +
+                "' WHERE id_factura = '" +
+                rept[0].id_factura +
+                "'"
             ),
               (err) => {
                 if (err) {
@@ -538,10 +559,10 @@ controller.elimpro = (req, res) => {
 
 controller.prueba = async (req, res, next) => {
   const doc = await req.session.docu; //ID DEL CLIENTE
-  const numero = await req.session.numeroFormateado;
-  const subtotal = await req.session.subtotal;
-  const impuesto = await req.session.impuesto;
-  const envio = await req.session.envio;
+  const numero = 0;
+  const subtotal = 0;
+  const impuesto = 0;
+  const envio = 0;
   idpuerta = req.body.idpuerta;
   sku = req.body.codigo;
   image = req.body.imgpuerta;
@@ -608,7 +629,7 @@ controller.prueba = async (req, res, next) => {
     total: numero,
     subtotal: subtotal,
     impuesto: impuesto,
-    envio: envio
+    envio: envio,
   });
 };
 
@@ -616,6 +637,7 @@ controller.finalizar = async (req, res) => {
   const user = req.session.user;
   const perf = req.session.per;
   const doc = req.session.docu;
+  const cor = req.session.cor;
 
   const data = req.body.paymentData; // Obtiene los datos de pago
   const method = data.paymentMethod;
@@ -764,13 +786,13 @@ controller.finalizar = async (req, res) => {
       {
         table: {
           body: [
-            ['Phone', phone.phone],
-            ['Address', phone.address],
-            ['Postal', phone.postal],
-            ['State', phone.state],
-          ]
+            ["Phone", phone.phone],
+            ["Address", phone.address],
+            ["Postal", phone.postal],
+            ["State", phone.state],
+          ],
         },
-        layout: 'noBorders',
+        layout: "noBorders",
         absolutePosition: { x: 800, y: 10 },
       },
     ],
@@ -816,7 +838,7 @@ controller.finalizar = async (req, res) => {
       font: "CenturyGothic",
       fontSize: 15,
       bold: false,
-    }, 
+    },
   };
 
   if (tablaContent) {
@@ -890,7 +912,7 @@ controller.finalizar = async (req, res) => {
       ],
     },
     margin: [750, 20, 60, 0], // Ajusta el margen superior para separar el precio de las tablas
-  });  
+  });
   // Agrega el texto "Terms of Payment:" con el estilo de fondo amarillo
   docDefinition.content.push({
     canvas: [
@@ -966,8 +988,8 @@ controller.finalizar = async (req, res) => {
 
   await transporter.sendMail({
     from: '"Acemar" <acemardistributors.com@gmail.com>', // sender address
-    to: "sistemas@acemar.co",
-    //to: "sistemas@acemar.co, " + cor + "", // list of receivers
+    //to: "sistemas@acemar.co",
+    to: "sistemas@acemar.co, " + cor + "", // list of receivers
     subject: "Acemar", // Subject line
     text: "Thank you for contacting us.  We have sent you an email with a PDF of your order. If you have any question, please feel free to contact us", // plain text body
     attachments: [
@@ -1479,10 +1501,24 @@ controller.actclient = async (req, res, next) => {
     if (req.file) {
       const img = req.file.filename;
 
-      const sql = 'UPDATE cliente SET mail=?, nombre=?, password=?, phone=?, rol=?, address=?, postal=?, state=?, perfil=?, flete=?, condiciones=? WHERE id=?';
+      const sql =
+        "UPDATE cliente SET mail=?, nombre=?, password=?, phone=?, rol=?, address=?, postal=?, state=?, perfil=?, flete=?, condiciones=? WHERE id=?";
 
-// Valores a insertar
-      const values = [email, name, pass, phone, rol, address, postal, state, img, fle, con, id];
+      // Valores a insertar
+      const values = [
+        email,
+        name,
+        pass,
+        phone,
+        rol,
+        address,
+        postal,
+        state,
+        img,
+        fle,
+        con,
+        id,
+      ];
 
       cnn.query(sql, values, (error, results) => {
         if (error) {
@@ -1490,10 +1526,8 @@ controller.actclient = async (req, res, next) => {
         }
         res.redirect("account");
 
-        console.log('Filas actualizadas:', results.affectedRows);
+        console.log("Filas actualizadas:", results.affectedRows);
       });
-
-      
     } else {
       cnn.query(
         "UPDATE cliente SET mail='" +

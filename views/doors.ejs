@@ -54,8 +54,19 @@
         <li class="nav-item">
           <a class="nav-link text-secondary" href="facturas">Invoice</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-secondary" href="precios">Price</a>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-secondary"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Price
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="priceDoor">Doors</a></li>
+            <li><a class="dropdown-item" href="precios">Flooring</a></li>
+          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link text-secondary" href="inventario">Inventory</a>
@@ -185,10 +196,6 @@
           <th scope="col">Product</th>
           <th scope="col">Image</th>
           <th scope="col">Finish</th>
-          <th scope="col">Matte price with frame</th>
-          <th scope="col">Matte price without frame</th>
-          <th scope="col">High gloss price with frame</th>
-          <th scope="col">High gloss price without frame</th>
           <th scope="col">Color</th>
           <th scope="col">Finish</th>
           <th scope="col">Kerfs</th>
@@ -210,10 +217,6 @@
             />
           </td>
           <td><%= datos.finish%></td>
-          <td><%= datos.conmarco%></td>
-          <td><%= datos.sinmarco%></td>
-          <td><%= datos.conhigth%></td>
-          <td><%= datos.sinhight%></td>
           <td><%= datos.color%></td>
           <td><%= datos.finish%></td>
           <td><%= datos.kerfs%></td>

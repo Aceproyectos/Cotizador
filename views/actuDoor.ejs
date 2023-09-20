@@ -35,7 +35,7 @@
       />
       <ul class="nav justify-content-end me-5">
         <li class="nav-item">
-          <a class="nav-link text-secondary" href="account">Account</a>
+          <a class="nav-link text-secondary" href="/account">Account</a>
         </li>
         <li class="nav-item dropdown">
           <a
@@ -47,18 +47,29 @@
             Products
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="doors">Doors</a></li>
-            <li><a class="dropdown-item" href="productos">Flooring</a></li>
+            <li><a class="dropdown-item" href="/doors">Doors</a></li>
+            <li><a class="dropdown-item" href="/productos">Flooring</a></li>
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary" href="facturas">Invoice</a>
+          <a class="nav-link text-secondary" href="/facturas">Invoice</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle text-secondary"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Price
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/priceDoor">Doors</a></li>
+            <li><a class="dropdown-item" href="/precios">Flooring</a></li>
+          </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-secondary" href="precios">Price</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-secondary" href="inventario">Inventory</a>
+          <a class="nav-link text-secondary" href="/inventario">Inventory</a>
         </li>
         <li class="nav-item">
           <a href="/"
@@ -128,42 +139,6 @@
             class="form-control"
             name="finish"
             value="<%= datos.finish %>"
-          />
-        </div>
-        <label for="">price matte door with frame</label>
-        <div class="input-group mt-3">
-          <input
-            type="float"
-            name="priceMatCon"
-            class="form-control"
-            value=" <%= datos.conmarco %>"
-          />
-        </div>
-        <label for="">Price matte door without frame</label>
-        <div class="input-group mt-3">
-          <input
-            type="float"
-            name="priceMatSin"
-            class="form-control"
-            value=" <%= datos.sinmarco %>"
-          />
-        </div>
-        <label for="">price high gloss door with frame</label>
-        <div class="input-group mt-3">
-          <input
-            type="float"
-            name="priceGlosCon"
-            class="form-control"
-            value="<%= datos.conhigth %>"
-          />
-        </div>
-        <label for="">Price high gloss door without frame</label>
-        <div class="input-group mt-3">
-          <input
-            type="float"
-            name="priceGlosSin"
-            class="form-control"
-            value="<%= datos.sinhight %>"
           />
         </div>
         <label>Color</label>
