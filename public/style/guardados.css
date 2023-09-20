@@ -57,6 +57,10 @@ td {
   border-bottom: 2px solid #e6e0e0;
   text-align: center;
 }
+.tablessss {
+  list-style-type: none;
+}
+
 .cont {
   display: flex;
   flex-direction: column;
@@ -64,7 +68,7 @@ td {
 .ultimo{
   display: flex;
   flex-direction: column;
-  max-width: 300px; /* ajustar el ancho máximo según tus necesidades */
+  max-width: 250px; /* ajustar el ancho máximo según tus necesidades */
   margin-left: 70%;
   margin-top: 3%;
   font-size: 20px;

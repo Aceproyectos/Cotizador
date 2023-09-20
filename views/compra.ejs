@@ -135,14 +135,20 @@
       <% })%>
       </tbody>
     </table>
-
-    <div class="ultimo mt-auto bg-warning">
-      <label>Total:</label>
-      <span id="subtotal">
-        <%= productos[0].factura_total %>
-      </span>
-  </div>
-    
+    <div class="ultimo mt-auto mt-5" style="display: flex; justify-content: space-between; text-align: left; padding: 10px;">
+      <div>
+        <label for="">Subtotal:</label><br />
+        <label for="">Tacks:</label><br />
+        <label for="">Shipping:</label><br />
+        <label for="">Total:</label>
+      </div>
+      <div style="text-align: right; margin-top: -120px;">
+        <span><%= productos[0].subtotal %></span><br />
+        <span><%= productos[0].impuesto %></span><br />
+        <span><%= productos[0].envio %></span><br />
+        <span><%= productos[0].factura_total %></span><br />
+      </div>
+    </div>
     <footer class="text-center text-lg-start">
         <!-- Grid container -->
         <div class="border bg-light container p-4">

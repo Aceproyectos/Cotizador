@@ -21,75 +21,6 @@ controller.formulario = (req, res, next) => {
 controller.door = (req, res, next) => {
   res.render("doors");
 };
-
-controller.prueba = async (req, res, next) => {
-  const doc = req.session.docu; //ID DEL CLIENTE
-  idpuerta = req.body.idpuerta;
-  sku = req.body.codigo;
-  image = req.body.imgpuerta;
-  unit_price = req.body.precio;
-  frame = req.body.frame;
-  height = req.body.height;
-  width = req.body.width;
-  finish = req.body.finish;
-  opening = req.body.opening;
-  core = req.body.core;
-  thickness = req.body.thickness;
-  cantidad = req.body.cantidad;
-  total = req.body.imgmarco;
-  color = req.body.color;
-
-  cnn.query(
-    "INSERT INTO productos SET ?",
-    {
-      id_enc: 1,
-      id_cliente: doc,
-      sku: sku,
-      image: image,
-      unit_price: unit_price,
-      total: total,
-    },
-    (err, result) => {
-      if (err) {
-        console.log("Error en insertar productos", err);
-        throw err;
-      } else {
-        const productId = result.insertId;
-        cnn.query(
-          "INSERT INTO detalles_puertas SET ?",
-          {
-            id: productId,
-            product_id: idpuerta,
-            frame: frame,
-            color: color,
-            height: height,
-            width: width,
-            finish: finish,
-            opening: opening,
-            core: core,
-            thickness: thickness,
-            quantity: cantidad,
-          },
-          (err) => {
-            if (err) {
-              console.log("error al insertar puertas", err);
-            } else {
-              console.log("puertas insertadas correctamente");
-              res.redirect("/lista");
-            }
-          }
-        );
-      }
-    }
-  );
-  const d = 1,
-    b = 5000;
-  cnn.query("INSERT INTO  factura SET ?", {
-    id_encabezado: b,
-    id_cliente: doc,
-    total: d,
-  });
-};
 controller.pisos = (req, res, next) => {
   res.render("pisos");
 };
@@ -540,6 +471,10 @@ controller.facturas = (req, res) => {
 
 controller.base = async (req, res) => {
   const doc = req.session.docu;
+  const numeroFormateado = await req.session.numeroFormateado;
+  const subtotal = await req.session.subtotal;
+  const impuesto = await req.session.impuesto;
+  const envio = await req.session.envio;
   cnn.query(
     "SELECT  ROUND(SUM(total), 2) AS sum FROM productos WHERE id_cliente = '" +
       doc +
@@ -566,14 +501,9 @@ controller.base = async (req, res) => {
                 }
               };
             console.log("si esta actualizando el factura");
+
             cnn.query(
-              "UPDATE factura SET id_encabezado = '" +
-                rept[0].id_factura +
-                "',total = '" +
-                sum[0].sum +
-                "' WHERE id_factura = '" +
-                rept[0].id_factura +
-                "'"
+              "UPDATE factura SET id_encabezado = '" + rept[0].id_factura + "', total = '" + numeroFormateado + "', subtotal = '" + subtotal + "', impuesto = '" + impuesto + "', envio = '" + envio + "' WHERE id_factura = '" + rept[0].id_factura + "'"
             ),
               (err) => {
                 if (err) {
@@ -603,6 +533,82 @@ controller.elimpro = (req, res) => {
     } else {
       res.redirect("/productos");
     }
+  });
+};
+
+controller.prueba = async (req, res, next) => {
+  const doc = await req.session.docu; //ID DEL CLIENTE
+  const numero = await req.session.numeroFormateado;
+  const subtotal = await req.session.subtotal;
+  const impuesto = await req.session.impuesto;
+  const envio = await req.session.envio;
+  idpuerta = req.body.idpuerta;
+  sku = req.body.codigo;
+  image = req.body.imgpuerta;
+  unit_price = req.body.precio;
+  frame = req.body.frame;
+  height = req.body.height;
+  width = req.body.width;
+  finish = req.body.finish;
+  opening = req.body.opening;
+  core = req.body.core;
+  thickness = req.body.thickness;
+  cantidad = req.body.cantidad;
+  total = req.body.imgmarco;
+  color = req.body.color;
+
+  cnn.query(
+    "INSERT INTO productos SET ?",
+    {
+      id_enc: 1,
+      id_cliente: doc,
+      sku: sku,
+      image: image,
+      unit_price: unit_price,
+      total: total,
+    },
+    (err, result) => {
+      if (err) {
+        console.log("Error en insertar productos", err);
+        throw err;
+      } else {
+        const productId = result.insertId;
+        cnn.query(
+          "INSERT INTO detalles_puertas SET ?",
+          {
+            id: productId,
+            product_id: idpuerta,
+            frame: frame,
+            color: color,
+            height: height,
+            width: width,
+            finish: finish,
+            opening: opening,
+            core: core,
+            thickness: thickness,
+            quantity: cantidad,
+          },
+          (err) => {
+            if (err) {
+              console.log("error al insertar puertas", err);
+            } else {
+              console.log("puertas insertadas correctamente");
+              res.redirect("/lista");
+            }
+          }
+        );
+      }
+    }
+  );
+  const d = 1,
+    b = 5000;
+  cnn.query("INSERT INTO  factura SET ?", {
+    id_encabezado: b,
+    id_cliente: doc,
+    total: numero,
+    subtotal: subtotal,
+    impuesto: impuesto,
+    envio: envio
   });
 };
 
@@ -642,7 +648,6 @@ controller.finalizar = async (req, res) => {
   }
 
   const phone = await getCustomers();
-  console.log(phone.phone);
 
   if (tablaContent) {
     for (
@@ -701,6 +706,10 @@ controller.finalizar = async (req, res) => {
     style: "currency",
     currency: "USD",
   });
+  req.session.numeroFormateado = await numeroFormateado;
+  req.session.subtotal = await subtotal;
+  req.session.impuesto = await impueto;
+  req.session.envio = await envio;
   //var numeroFormateado = new Intl.NumberFormat('es-ES').format(total);
 
   const PdfPrinter = require("pdfmake");
@@ -807,7 +816,7 @@ controller.finalizar = async (req, res) => {
       font: "CenturyGothic",
       fontSize: 15,
       bold: false,
-    },
+    }, 
   };
 
   if (tablaContent) {
@@ -837,16 +846,16 @@ controller.finalizar = async (req, res) => {
       widths: ["auto", 100],
       body: [
         [
-          { text: "Subtotal:", fontSize: 14 },
+          { text: "Subtotal:", fontSize: 14, alignment: "left" },
           { text: subtotal, alignment: "right", fontSize: 14 },
         ],
         [
-          { text: "Shipping:", fontSize: 14 },
-          { text: impueto, fontSize: 14, alignment: "right" },
+          { text: "Shipping:", fontSize: 14, alignment: "left" },
+          { text: impueto, alignment: "right", fontSize: 14 },
         ],
         [
-          { text: "Invoice:", fontSize: 14 },
-          { text: envio, fontSize: 14, alignment: "right" },
+          { text: "Invoice:", fontSize: 14, alignment: "left" },
+          { text: envio, alignment: "right", fontSize: 14 },
         ],
         [
           {
@@ -854,6 +863,7 @@ controller.finalizar = async (req, res) => {
             fontSize: 14,
             bold: true,
             fillColor: "#FFD700",
+            alignment: "left",
           },
           {
             text: numeroFormateado,
@@ -864,22 +874,23 @@ controller.finalizar = async (req, res) => {
           },
         ],
         [
-          { 
-            text: "Method:", 
-            fontSize: 14, 
+          {
+            text: "Method:",
+            fontSize: 14,
             margin: [0, 20], // Margen superior e inferior de 10 unidades
+            alignment: "left",
           },
-          { 
-            text: method, 
-            alignment: "right", 
+          {
+            text: method,
+            alignment: "right",
             fontSize: 14,
             margin: [0, 20], // Margen superior e inferior de 10 unidades
           },
         ],
       ],
     },
-    margin: [700, 20, 60, 0], // Ajusta el margen superior para separar el precio de las tablas
-  });
+    margin: [750, 20, 60, 0], // Ajusta el margen superior para separar el precio de las tablas
+  });  
   // Agrega el texto "Terms of Payment:" con el estilo de fondo amarillo
   docDefinition.content.push({
     canvas: [
@@ -1467,47 +1478,29 @@ controller.actclient = async (req, res, next) => {
     const fle = req.body.flete;
     if (req.file) {
       const img = req.file.filename;
-      cnn.query(
-        "UPDATE cliente SET mail='" +
-          email +
-          "',nombre = '" +
-          name +
-          "', password='" +
-          pass +
-          "', phone='" +
-          phon +
-          "', rol='" +
-          rolex +
-          "', address='" +
-          add +
-          "',postal='" +
-          pos +
-          "',state='" +
-          sta +
-          "', perfil='" +
-          img +
-          "', flete = '" +
-          fle +
-          "', condiciones = '" +
-          con +
-          "' WHERE id=" +
-          id +
-          "",
-        (err) => {
-          if (err) {
-            throw err;
-          } else {
-            res.redirect("account");
-          }
+
+      const sql = 'UPDATE cliente SET mail=?, nombre=?, password=?, phone=?, rol=?, address=?, postal=?, state=?, perfil=?, flete=?, condiciones=? WHERE id=?';
+
+// Valores a insertar
+      const values = [email, name, pass, phone, rol, address, postal, state, img, fle, con, id];
+
+      cnn.query(sql, values, (error, results) => {
+        if (error) {
+          throw error;
         }
-      );
+        res.redirect("account");
+
+        console.log('Filas actualizadas:', results.affectedRows);
+      });
+
+      
     } else {
       cnn.query(
         "UPDATE cliente SET mail='" +
           email +
-          "',nombre = '" +
+          "', nombre = '" +
           name +
-          "'+ password='" +
+          "', password='" +
           pass +
           "', phone='" +
           phon +

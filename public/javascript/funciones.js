@@ -85,5 +85,5 @@ $("#puertas").bind("submit", async function () {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(datos_cliente),
   });
-  window.location("https://acemardistributors.com:3000/lista")
+  window.location("https://acemardistributors.com/lista")
 });

@@ -140,7 +140,7 @@ router.get("/flooring/:id", (req, res) => {
 router.get("/compra/:id", (req, res) => {
   id = req.params.id;
   connection.query(
-    "SELECT f.id_factura AS factura_id, f.total AS factura_total,p.id AS pisos_i, p.sku AS producto_sku, p.image AS producto_image, p.unit_price AS producto_unit_price, p.total AS producto_total FROM factura AS f INNER JOIN productos AS p ON (f.id_factura = p.id_enc) WHERE f.id_factura = '" +
+    "SELECT f.id_factura AS factura_id, f.subtotal, f.impuesto, f.envio, f.total AS factura_total,p.id AS pisos_i, p.sku AS producto_sku, p.image AS producto_image, p.unit_price AS producto_unit_price, p.total AS producto_total FROM factura AS f INNER JOIN productos AS p ON (f.id_factura = p.id_enc) WHERE f.id_factura = '" +
       id +
       "'",
     (err, result) => {

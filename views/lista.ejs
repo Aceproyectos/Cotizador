@@ -252,39 +252,30 @@
       <div class="ultimo">
         <div>
           <% if (datosPisos.length > 0 || datosPuertas.length > 0) { %>
-          <label for="">Subtotal:</label>
-          <% if (datosPisos.length > 0) { %>
-          <span
-            ><%= datosPisos[0].total_sum.toLocaleString('en', { style:
-            'currency', currency: 'USD' }); %></span
-          >
-          <% } else if (datosPuertas.length > 0) { %>
-          <span
-            ><%= datosPuertas[0].total_sum.toLocaleString('en', { style:
-            'currency', currency: 'USD' }); %></span
-          >
+          <div style="display: flex; justify-content: space-between;">
+            <div style="text-align: left;">
+              <label for="">Subtotal:</label><br />
+              <label for="">Tacks:</label><br />
+              <label for="">Shipping:</label><br />
+              <label for="">Total:</label>
+            </div>
+            <div style="text-align: right;">
+              <% if (datosPisos.length > 0) { %>
+              <span><%= datosPisos[0].total_sum.toLocaleString('en', { style: 'currency', currency: 'USD' }); %></span><br />
+              <% } else if (datosPuertas.length > 0) { %>
+              <span><%= datosPuertas[0].total_sum.toLocaleString('en', { style: 'currency', currency: 'USD' }); %></span><br />
+              <% } %>
+              <span>0%</span><br />
+              <span id="flete"></span><br />
+              <% if (datosPisos.length > 0) { %>
+              <span><%= datosPisos[0].total_sum.toLocaleString('en', { style: 'currency', currency: 'USD' }); %></span><br />
+              <% } else if (datosPuertas.length > 0) { %>
+              <span><%= datosPuertas[0].total_sum.toLocaleString('en', { style: 'currency', currency: 'USD' }); %></span><br />
+              <% } %>
+            </div>
+          </div>
           <% } %>
-          <br />
-          <label for="">Taks: </label>
-          <span>0%</span>
-          <br />
-          <label for="">Shipping: </label>
-          <span id="flete"></span>
-          <br />
-          <label for="">Total: </label>
-          <% if (datosPisos.length > 0) { %>
-          <span
-            ><%= datosPisos[0].total_sum.toLocaleString('en', { style:
-            'currency', currency: 'USD' }); %></span
-          >
-          <% } else if (datosPuertas.length > 0) { %>
-          <span
-            ><%= datosPuertas[0].total_sum.toLocaleString('en', { style:
-            'currency', currency: 'USD' }); %></span
-          >
-          <% } %> <% } %>
-        </div>
-
+        </div>        
         <input
           type="button"
           class="btn btn-outline-warning mt-3 btn-lg fin"
