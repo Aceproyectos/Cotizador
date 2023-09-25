@@ -1,8 +1,119 @@
-body{
-    background: linear-gradient(#ffd700,75%, white);
-    /* background: rgb(209, 190, 81) */;
-    background-size: cover;
+@font-face {
+  font-family: "Bitstream Vera Serif Bold";
+  src: url("/fonts/League_Gothic/LeagueGothic-Regular-VariableFont_wdth.ttf");
 }
-.icon-use-pass{
-    background: #FFb400;
+@font-face {
+  font-family: "Bitstream";
+  src: url("/fonts/League_Gothic/static/LeagueGothic_SemiCondensed-Regular.ttf");
+}
+/* Aplicar la fuente personalizada a elementos específicos */
+html {
+  height: 0;
+}
+body {
+  font-family: "Bitstream Vera Serif Bold", serif;
+}
+label{
+  font-size: large;
+}
+
+.contenido {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.lin-login{
+  background-color: #FFC107;
+  width: 30%;
+  height: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+}
+
+.linea-welcome{
+  background-color: #ffffff;
+  width: 100%;
+  height: 5px;
+  margin-bottom: 20px;
+}
+
+.bienvenida {
+  grid-column: 1 / 1;
+  grid-row: 1;
+  width: 40%;
+  color: #fff;
+  padding-left: 10px;
+  font-family: 'Bitstream';
+}
+.bienvenida h3 {
+  margin: 0; /* Elimina el margen predeterminado de los encabezados */
+  padding-left: 20px; /* Espaciado a la izquierda para las viñetas */
+  position: relative; /* Permite que las viñetas se superpongan */
+  font-family: 'Bitstream';
+}
+
+.bienvenida h3::before {
+  content: "\25A0"; /* Código Unicode para un cuadrado sólido */
+  color: #FFC107; /* Color de las viñetas */
+  position: absolute; /* Coloca las viñetas en una posición absoluta */
+  left: 0; /* Alinea las viñetas a la izquierda del encabezado */
+  font-family: 'Bitstream';
+}
+
+.login {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  margin-left: -40%;
+  margin-right: 40%;
+  width: 100%;
+  text-align: center;
+  margin-top: 20%;
+}
+
+.logo {
+  width: 15%;
+  position: absolute;
+  bottom: 0;
+  margin-top: 100px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+/* Media query for screens smaller than 768px */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+  .contenido {
+    grid-template-columns: 1fr; /* Change to a single column layout */
+  }
+  .bienvenida {
+    width: 100%;
+    padding-left: 0; /* Remove left padding */
+    text-align: center; /* Center-align content */
+  }
+  .bienvenida h3::before {
+    left: 20%; /* Center-align bullet points */
+    transform: translateX(-50%);
+  }
+  .login {
+    margin: 0;
+  }
+  .logo {
+    width: 30%;
+    margin: 20px auto; /* Center-align the logo */
+    position: relative;
+    bottom: auto;
+    margin-top: 20px;
+  }
+}
+
+/* Media query for screens smaller than 480px */
+@media (max-width: 480px) {
+  body {
+    font-size: 12px; /* Further reduce font size for very small screens */
+  }
 }

@@ -1,60 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Acemar</title>
     <script src="javascript/jquery-3.6.1.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="style/login.css">
-    <link rel="stylesheet" href="style/estilos.css">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="style/login.css" />
+  </head>
 
-<body class="d-flex justify-content-center align-items-center vh-100">
-    <div class="animate__animated animate__bounce animate__backInUp">
+  <body>
+    <div class="contenido">
+      <div class="bienvenida bg-black">
+        <h2 class="text-center">Welcome</h2>
+        <div class="linea-welcome"></div>
+        <h3>Get a quick and easy quote</h3 >
+        <br>
+        <br>
+        <h3>Select the product you wish to quote</h3 >
+        <br>
+        <br>
+        <h3>Get the PDF of the quote by email</h3>
+        <img src="/images/redes/SKINET-CIRCULO.png" class="logo">
+      </div>
+      <div class="animate__animated animate__bounce animate__backInUp">
         <form action="/validarlogin" method="post" id="login" class="login">
-            <div class="bg-white p-5 rounded-5 text-secondary">
-                <div class="d-flex justify-content-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="7rem" fill="currentColor"
-                        class="bi bi-person-circle" viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                        <path fill-rule="evenodd"
-                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                    </svg>
-                </div>
-                <div class="text-center fs-1 fw-bold">Login</div>
-                <div class="input-group mt-3">
-                    <div class="input-group-text bg-warning">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1.2rem" fill="white" class="bi bi-person-fill"
-                            viewBox="0 0 16 16">
-                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                        </svg>
-                    </div>
-                    <input type="text" placeholder="Username" name="user" class="form-control">
-                </div>
-                <div class="input-group mt-2">
-                    <div class="input-group-text bg-warning">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="1.2rem" fill="white" class="bi bi-lock-fill"
-                            viewBox="0 0 16 16">
-                            <path
-                                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
-                        </svg>
-                    </div>
-                    <input type="password" placeholder="Password" name="pass" class="form-control">
-                </div>
+          <h1>Login</h1>
+          <div class="lin-login"></div>
+          <h4>E-mail</h4>
+          <div class="input-group ">
+            <input type="text" name="user" class="form-control" />
+          </div>
+          <h4>Password</h4>
+          <div class="input-group mt-2">
+            <input type="password" name="pass" class="form-control" />
+          </div>
 
-                <div class="text-center mt-2"><em><a class="text-decoration-none text-secondary"
-                            href="http://acemardistributors.com:5005">Forgot your password</a></em></div>
-
-                <input type="submit" class="btn btn-warning mt-3 w-100" value="Enter">
-                <!-- <button type="button" class="btn btn-warning mt-3 w-100">Enter</button> -->
-            </div>
+          <input
+            type="submit"
+            class="btn btn-warning mt-3 w-50 aling-item-center"
+            value="Enter"
+          />
+          <div class="text-center">
+            <em
+              ><a
+                class="text-decoration-none text-black"
+                href="http://acemardistributors.com:5005"
+                >Forgot your password</a
+              ></em
+            >
+          </div>
+          <!-- <button type="button" class="btn btn-warning mt-3 w-100">Enter</button> -->
         </form>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>
